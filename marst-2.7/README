@@ -1,0 +1,68 @@
+GNU MARST -- Algol-to-C Translator, Version 2.7
+
+Copyright (C) 2000, 2001, 2002, 2007, 2013 Free Software Foundation,
+Inc.
+
+GNU MARST is part of the GNU project released under the aegis of GNU.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+GNU MARST includes three components:
+
+*  the translator, MARST, which allows translating Algol 60 programs to
+   the C programming language;
+
+*  the library, ALGLIB, which contains pre-compiled standard Algol 60
+   procedures and additional library routines. This library is used at
+   the linking stage.
+
+*  the converter, MACVT, which allows converting Algol 60 programs from
+   some other (old) representations to the MARST representation.
+
+The input language of the translator is the hardware representation of
+full (i.e. Level 0) Algol 60 as described in the IFIP document:
+
+Modified Report on the Algorithmic Language Algol 60, The Computer
+Journal, v.19, No.4, Nov. 1976, pp.364-79. (This document is an
+official standard IFIP document. It is *not* a part of GNU MARST.)
+
+Note that there are some differences between the Revised Report and
+the Modified Report since the latter is a result of application of the
+following IFIP document to the Revised Report:
+
+R.M.De Morgan, I.D.Hill, and B.A.Wichmann. A Supplement to the ALGOL 60
+Revised Report. The Computer Journal, Vol. 19, No. 3, 1976, pp. 276-88.
+(This document is an official standard IFIP document. It is *not* part
+of GNU MARST.)
+
+The translator and all library routines are written in a basic dialect
+of the C programming language known as ANSI C 89 and described in the
+following document:
+
+ANSI/ISO 9899-1990 (ANSI X3.159-1989), American National Standard for
+Programming Languages - C, 1992. (This document is an official standard
+ANSI/ISO document. It is *not* part of GNU MARST.)
+
+The output code produced by the translator is in the same dialect.
+
+See the file INSTALL for compilation and installation instructions.
+
+See the official GNU web page about MARST:
+<http://www.gnu.org/software/marst/marst.html>.
+
+The latest GNU/Linux distribution of the MARST package can be ftp'ed
+from <ftp://ftp.gnu.org/gnu/marst/> or from some mirror GNU ftp site
+(see <http://www.gnu.org/order/ftp.html> for details).
+
+Please, report bugs to <bug-marst@gnu.org>.
