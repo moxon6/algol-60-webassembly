@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-debian-10
+FROM trzeci/emscripten:1.39.10-upstream
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
