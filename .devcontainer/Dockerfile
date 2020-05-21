@@ -8,4 +8,6 @@ RUN apt-get -y install clang
 COPY ./*.sh /scripts/
 RUN "bash" "/scripts/build.sh"
 
+RUN apt-get -y install entr
+
 ENV DEBIAN_FRONTEND=dialog

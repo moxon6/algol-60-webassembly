@@ -1,0 +1,11 @@
+{
+  "name": "algol-60-webassembly",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:watch": "find alg scripts -type f | entr ./scripts/build.sh"
+  },
+  "author": "",
+  "license": "ISC"
+}
