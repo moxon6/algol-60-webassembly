@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="algol-wasm/index.js"></script>
+    </head>
+    <body>
+        <div>
+            <div class="tetris-board">
+                    each yCoord in Array(18).fill(0).map((x,i) => i)
+                        div(class="tetris-row", id=`tetris-row-${yCoord}`)
+                            each xCoord in Array(10).fill(0).map((x,i) => i)
+                                div(class="tetris-cell", id=`tetris-row-${yCoord}-cell-${xCoord}`)
+            </div>
+        </div>
+    </body>
+</html>

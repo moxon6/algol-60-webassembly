@@ -1,0 +1,22 @@
+.tetris-board {
+    width: 500px;
+    height: 900px;
+    background-color: navy;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.tetris-row{
+    flex: 1;
+    width: 100%;
+    display: flex;
+}
+
+.tetris-cell {
+    background-color: green;
+    flex: 1;
+    border: 1px solid black;
+    padding: 1px;
+    box-sizing: border-box;
+}
