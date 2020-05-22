@@ -115,9 +115,12 @@ begin
    tetronimos[6,3,0] := 0; tetronimos[6,3,1] := 0; tetronimos[6,3,2] := 0; tetronimos[6,3,3] := 0;
 
    begin
+      
          integer i;
          integer array currentTetronimoBuffer[0:3, 0:3];
-
+      
+         inline("startup();");
+         
          currentPositionX := 5;
          currentPositionY := 6;
          
@@ -132,6 +135,7 @@ begin
          copyTetronimo(currentTetronimoBuffer, currentTetronimo);
 
          placeCurrentTetronimo;
-         printMatrix(1, tetrisBoard, 18,10)
+         printMatrix(1, tetrisBoard, 18,10);
+         inline("emscripten_sleep(20000);");
       end
    end

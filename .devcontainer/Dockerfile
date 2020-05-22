@@ -17,4 +17,6 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" 
 RUN sed -i "s/OSH_THEME=.*/OSH_THEME=\"sirup\"/g" ~/.bashrc
 
+RUN apt-get -y install moreutils
+
 ENV DEBIAN_FRONTEND=dialog

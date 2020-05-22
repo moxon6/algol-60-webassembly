@@ -18,6 +18,9 @@ echo ">>> Transpiling ALGOL60 -> C ..."
 algol_source="alg/app.alg"
 marst $algol_source -o $build_c
 
+
+cat c/extern.c $build_c | sponge $build_c
+
 tput setaf 3 # Set font to yellow
 echo ">>> Compiling C -> WASM + JS ..."
 emcc \
@@ -25,6 +28,7 @@ emcc \
     /libalgol-llvm/libalgol.bc \
     -I/usr/local/include \
     -o $build_js \
-    -Wno-unsequenced
+    -Wno-unsequenced \
+    -s ASYNCIFY \
 
 echo "$(tput setaf 2)>>> Build Complete!$(tput sgr 0)"
