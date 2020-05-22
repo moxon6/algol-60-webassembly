@@ -1,106 +1,137 @@
-begin comment These examples were described in [D.E.Knuth, J.N.Merner.
-         Algol 60 Confidential, Comm.A.C.M., 4, 6 (1961), pp.268-272].
-         The authors show possibilities of recursive procedures and
-         call-by-name parameters that based on examples of usage of
-         the procedure GPS (General Problem Solver) in some assignment
-         statements. One of those statements performing matrix multi-
-         plication was offered as a challenge to Algol 60 translator
-         developers;
+begin
+   integer array tetrisBoard[0:17,0:9];
+   integer array tetronimos[0:6,0:3, 0:3];
+   integer array currentTetronimo[0:3, 0:3];
+   integer currentPositionX;
+   integer currentPositionY;
 
-      real procedure GPS(I, N, Z, V); real I, N, Z, V;
-      begin for I := 1 step 1 until N do Z := V;
-         GPS := 1
+   procedure printMatrix(channel, a, dim1, dim2);
+   integer channel; integer array a; integer dim1; integer dim2;
+   begin
+      integer i, j;
+      for i := 0 step 1 until dim1-1 do
+      begin
+         for j := 0 step 1 until dim2-1 do outinteger (channel, a[i,j]);
+         outstring(channel,"\n")
+      end
+   end;
+
+   procedure rotateMatrix(matrix, dimension);
+   integer array matrix; integer dimension;
+   begin
+      integer i, j;
+      for i := 0 step 1 until dimension-1 do
+      begin
+         for j := 0 step 1 until dimension-1 do
+            outstring(1, "\n");
+      end
+   end;
+
+   procedure initialiseTetronimo(tetronimoIndex, color);
+   integer tetronimoIndex; integer color;
+   begin
+      integer i, j;
+      for i := 0 step 1 until 3 do
+      begin
+         for j := 0 step 1 until 3 do
+            currentTetronimo[i,j] := tetronimos[tetronimoIndex,i,j] * color;
+      end
+   end;
+
+   procedure placeCurrentTetronimo;
+   begin
+      integer i, j;
+      for i := 0 step 1 until 3 do
+      begin
+         for j := 0 step 1 until 3 do
+            tetrisBoard[i + currentPositionY, j + currentPositionX] := currentTetronimo[i,j];
       end;
+      outstring(1, "\n");
+   end;
 
-      comment The first example demonstrates usage of the procedure
-         GPS to create a matrix A[i,j] = i+j;
+   procedure copyTetronimo(src, dest);
+   integer array src; integer array dest;
+   begin
+      integer i, j;
+      for i := 0 step 1 until 3 do
+         begin
+            for j := 0 step 1 until 3 do
+               dest[i,j] := src[i,j];
+      end
+   end;
 
-first example:
-      begin
-         real i, j;
-         array A[1:2,1:3];
-         outstring(1, "First example\n");
-         i := GPS(j, 3.0, i, GPS(i, 2.0, A[i,j], i+j));
-         outstring(1, "Matrix A:\n");
-         outreal(1, A[1,1]); outreal(1, A[1,2]); outreal(1, A[1,3]);
-         outstring(1, "\n");
-         outreal(1, A[2,1]); outreal(1, A[2,2]); outreal(1, A[2,3]);
-         outstring(1, "\n")
-      end of first example;
+   procedure transposeTetronimo(src, dest);
+   integer array src; integer array dest;
+   begin
+      integer i, j;
+      for i := 0 step 1 until 3 do
+         begin
+            for j := 0 step 1 until 3 do
+               dest[i,j] := src[j,i];
+      end
+   end;
+   
 
-      comment The second example demonstrates usage of the procedure
-         GPS to perform matrix multiplication;
+   comment "I Tetronimo";
+   tetronimos[0,0,0] := 1; tetronimos[0,0,1] := 1; tetronimos[0,0,2] := 1; tetronimos[0,0,3] := 1;
+   tetronimos[0,1,0] := 0; tetronimos[0,1,1] := 0; tetronimos[0,1,2] := 0; tetronimos[0,1,3] := 0;
+   tetronimos[0,2,0] := 0; tetronimos[0,2,1] := 0; tetronimos[0,2,2] := 0; tetronimos[0,2,3] := 0;
+   tetronimos[0,3,0] := 0; tetronimos[0,3,1] := 0; tetronimos[0,3,2] := 0; tetronimos[0,3,3] := 0;
 
-second example:
-      begin
+   comment "O Tetronimo";
+   tetronimos[1,0,0] := 0; tetronimos[1,0,1] := 1; tetronimos[1,0,2] := 1; tetronimos[1,0,3] := 0;
+   tetronimos[1,1,0] := 0; tetronimos[1,1,1] := 1; tetronimos[1,1,2] := 1; tetronimos[1,1,3] := 0;
+   tetronimos[1,2,0] := 0; tetronimos[1,2,1] := 0; tetronimos[1,2,2] := 0; tetronimos[1,2,3] := 0;
+   tetronimos[1,3,0] := 0; tetronimos[1,3,1] := 0; tetronimos[1,3,2] := 0; tetronimos[1,3,3] := 0;
 
-         procedure testmatr(n) result:(a);
-            comment create test matrix (CACM, Algorithm 52);
-            value n; integer n; array a;
-         begin real c, d; integer i, j;
-            c := n * (n + 1) * (2 * n - 5) / 6;
-            d := 1 / c; a[n,n] := -d;
-            for i := 1 step 1 until n-1 do
-               begin a[i,n] := a[n,i] := d * i;
-                  a[i,i] := d * (c - i ^ 2);
-                  for j := 1 step 1 until i-1 do
-                     a[i,j] := a[j,i] := - d * i * j
-               end
-         end testmatr;
+   comment "T Tetronimo";
+   tetronimos[2,0,0] := 0; tetronimos[2,0,1] := 1; tetronimos[2,0,2] := 0; tetronimos[2,0,3] := 0;
+   tetronimos[2,1,0] := 1; tetronimos[2,1,1] := 1; tetronimos[2,1,2] := 1; tetronimos[2,1,3] := 0;
+   tetronimos[2,2,0] := 0; tetronimos[2,2,1] := 0; tetronimos[2,2,2] := 0; tetronimos[2,2,3] := 0;
+   tetronimos[2,3,0] := 0; tetronimos[2,3,1] := 0; tetronimos[2,3,2] := 0; tetronimos[2,3,3] := 0;
 
-         procedure invert 140(n, eps, out) dataresult:(a);
-            comment invert matrix (CACM, Algorithm 140);
-            value n, eps; real eps; integer n; array a; label out;
-         begin real q; integer i, j, k;
-            for i := 1 step 1 until n do
-               begin
-                  if abs(a[i,i]) <= eps then go to out;
-                  q := 1 / a[i,i]; a[i,i] := 1;
-                  for k := 1 step 1 until n do a[i,k] := a[i,k] * q;
-                  for j := 1 step 1 until n do
-                     if i != j then
-                        begin q := a[j,i]; a[j,i] := 0;
-                           for k := 1 step 1 until n do
-                              a[j,k] := a[j,k] - q * a[i,k]
-                        end j
-               end i
-         end invert 140;
+   comment "S Tetronimo";
+   tetronimos[3,0,0] := 0; tetronimos[3,0,1] := 1; tetronimos[3,0,2] := 1; tetronimos[3,0,3] := 0;
+   tetronimos[3,1,0] := 1; tetronimos[3,1,1] := 1; tetronimos[3,1,2] := 0; tetronimos[3,1,3] := 0;
+   tetronimos[3,2,0] := 0; tetronimos[3,2,1] := 0; tetronimos[3,2,2] := 0; tetronimos[3,2,3] := 0;
+   tetronimos[3,3,0] := 0; tetronimos[3,3,1] := 0; tetronimos[3,3,2] := 0; tetronimos[3,3,3] := 0;
 
-         procedure print matrix(name, n, a);
-            value n; string name; integer n; array a;
-         begin integer i, j;
-            outstring(1, "Matrix ");
-            outstring(1, name);
-            outstring(1, ":\n");
-            for i := 1 step 1 until n do
-               begin for j := 1 step 1 until n do
-                  outreal(1, if abs(a[i,j]) < #-12 then 0 else a[i,j]);
-                  outchar(1, "\n", 1)
-               end i
-         end print matrix;
+   comment "Z Tetronimo";
+   tetronimos[4,0,0] := 1; tetronimos[4,0,1] := 1; tetronimos[4,0,2] := 0; tetronimos[4,0,3] := 0;
+   tetronimos[4,1,0] := 0; tetronimos[4,1,1] := 1; tetronimos[4,1,2] := 1; tetronimos[4,1,3] := 0;
+   tetronimos[4,2,0] := 0; tetronimos[4,2,1] := 0; tetronimos[4,2,2] := 0; tetronimos[4,2,3] := 0;
+   tetronimos[4,3,0] := 0; tetronimos[4,3,1] := 0; tetronimos[4,3,2] := 0; tetronimos[4,3,3] := 0;
 
-         comment n is order of matrices;
-         integer n;
-         n := 5;
+   comment "J Tetronimo";
+   tetronimos[5,0,0] := 1; tetronimos[5,0,1] := 0; tetronimos[5,0,2] := 0; tetronimos[5,0,3] := 0;
+   tetronimos[5,1,0] := 1; tetronimos[5,1,1] := 1; tetronimos[5,1,2] := 1; tetronimos[5,1,3] := 0;
+   tetronimos[5,2,0] := 0; tetronimos[5,2,1] := 0; tetronimos[5,2,2] := 0; tetronimos[5,2,3] := 0;
+   tetronimos[5,3,0] := 0; tetronimos[5,3,1] := 0; tetronimos[5,3,2] := 0; tetronimos[5,3,3] := 0;
 
-         outstring (1, "Second example\n");
+   comment "L Tetronimo";
+   tetronimos[6,0,0] := 0; tetronimos[6,0,1] := 0; tetronimos[6,0,2] := 1; tetronimos[6,0,3] := 0;
+   tetronimos[6,1,0] := 1; tetronimos[6,1,1] := 1; tetronimos[6,1,2] := 1; tetronimos[6,1,3] := 0;
+   tetronimos[6,2,0] := 0; tetronimos[6,2,1] := 0; tetronimos[6,2,2] := 0; tetronimos[6,2,3] := 0;
+   tetronimos[6,3,0] := 0; tetronimos[6,3,1] := 0; tetronimos[6,3,2] := 0; tetronimos[6,3,3] := 0;
 
-         begin array A, B, C[1:n,1:n]; integer i, j, k;
-            comment create test matrix A;
-            testmatr(n, A);
-            print matrix("A", n, A);
-            comment B := inv(A);
-            testmatr(n, B);
-            invert 140(n, epsilon, sing, B);
-            go to skip;
-sing:       fault("Matrix is singular", n);
-skip:       print matrix("B = inv(A)", n, B);
-            comment C := A * B using GPS;
-            i := GPS(i, 1.0, C[1,1], 0.0) * GPS(i, (n-1) * GPS(j, (n-1)
-               * GPS(k, n, C[i,j], C[i,j] + A[i,k] * B[k,j]), C[i,j+1],
-               0.0), C[i+1,1], 0.0);
-            print matrix("C = A * B", n, C)
-         end
-      end of second example
+   begin
+         integer i;
+         integer array currentTetronimoBuffer[0:3, 0:3];
 
-end
+         currentPositionX := 5;
+         currentPositionY := 6;
+         
+         for i := 0 step 1 until 5 do
+         begin
+            initialiseTetronimo(i, 5);
+            printMatrix(1, currentTetronimo, 4,4);
+            outstring(1, "\n")
+         end;
+
+         transposeTetronimo(currentTetronimo, currentTetronimoBuffer);
+         copyTetronimo(currentTetronimoBuffer, currentTetronimo);
+
+         placeCurrentTetronimo;
+         printMatrix(1, tetrisBoard, 18,10)
+      end
+   end
