@@ -1,2 +1,4 @@
 app/algol-wasm
 build-bin
+app/index.html
+node_modules

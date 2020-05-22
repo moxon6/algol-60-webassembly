@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:watch": "find alg scripts -type f | entr ./scripts/build.sh"
+    "build:watch": "find alg scripts -type f | entr ./scripts/build.sh",
+    "build-html:watch": "pug app/index.pug -P -w"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pug-cli": "^1.0.0-alpha6"
+  }
 }
