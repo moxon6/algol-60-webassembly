@@ -8,6 +8,13 @@ RUN apt-get -y install clang
 COPY ./*.sh /scripts/
 RUN "bash" "/scripts/build.sh"
 
-RUN apt-get -y install entr
+RUN apt-get -y install entr locales
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" 
+RUN sed -i "s/OSH_THEME=.*/OSH_THEME=\"sirup\"/g" ~/.bashrc
 
 ENV DEBIAN_FRONTEND=dialog
