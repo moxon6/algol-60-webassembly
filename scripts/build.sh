@@ -4,7 +4,7 @@ set -e
 
 # Define C intermediate and js/wasm output dirs
 build_c_dir=/tmp/marst-wasm-build
-build_js_dir=out
+build_js_dir=app/algol-wasm
 
 # Create these directories if they don't exist
 mkdir -p $build_js_dir $build_c_dir
