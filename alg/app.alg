@@ -1,6 +1,9 @@
 begin
+   
    integer array lockedPiecesBoard[0:17,0:9];
-   integer array compositeBoard[0:17,0:9];
+   
+   comment "Allocate array to store what will be actually displayed - Recalculate on each loop";
+   integer array compositeBoard[0:17,0:9]; 
    
    integer array tetronimos[0:6,0:3, 0:1];
    integer array currentTetronimo[0:3, 0:1];
