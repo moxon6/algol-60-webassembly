@@ -4,7 +4,7 @@
     background-color: navy;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid gray;
 }
 
 .tetris-row{
@@ -16,7 +16,7 @@
 .tetris-cell {
     background-color: green;
     flex: 1;
-    border: 1px solid black;
+    border: 1px solid rgba(127,127,127,0.5);
     padding: 1px;
     box-sizing: border-box;
 }

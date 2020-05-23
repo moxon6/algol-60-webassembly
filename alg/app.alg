@@ -13,16 +13,17 @@ begin
 
    procedure printMatrix(channel, a, dim1, dim2);
    integer channel; integer array a; integer dim1; integer dim2;
-   
    begin
       integer i, j; integer input;
       for i := 0 step 1 until dim1-1 do
       begin
          for j := 0 step 1 until dim2-1 do 
             if a[i,j] > 0 then
-               setSquareColor(i,j, "blue")               
+               begin
+                  setSquareColor(i,j, a[i,j]);
+               end
             else
-               setSquareColor(i,j, "green");
+               setSquareColor(i,j, 0);
       end;
       comment "We queue up draw commands and execute in batch for performance";
       outstring(1, "EXECUTE\n");
@@ -50,7 +51,8 @@ begin
       end
    end;
 
-   procedure placeCurrentTetronimo;
+   procedure placeCurrentTetronimo(currentColorIndex);
+   integer currentColorIndex;
    begin
       integer i, j, k;
 
@@ -67,7 +69,7 @@ begin
          compositeBoard[
             currentTetronimo[k,1] + currentPositionY,
             currentTetronimo[k,0] + currentPositionX
-         ] := 1;
+         ] := currentColorIndex;
       end;
    end;
 
@@ -93,15 +95,28 @@ begin
       end
    end;
 
-   procedure setSquareColor(x,y,color);
-   integer x,y; string color;
+   procedure printColorByIndex(colorIndex);
+   integer colorIndex;
+   begin
+      if (colorIndex = 1) then outstring(1, "aqua")
+      else if (colorIndex = 2) then outstring(1, "blue")
+      else if (colorIndex = 3) then outstring(1, "orange")
+      else if (colorIndex = 4) then outstring(1, "yellow")
+      else if (colorIndex = 5) then outstring(1, "green")
+      else if (colorIndex = 6) then outstring(1, "purple")
+      else if (colorIndex = 7) then outstring(1, "red")
+      else outstring(1, "black");
+   end;
+
+   procedure setSquareColor(x,y,colorIndex);
+   integer x,y,colorIndex;
    begin
       outstring(1, "CALL:setElementProperty('#tetris-row-");
       outinteger(1, x);
       outstring(1, "-cell-");
       outinteger(1, y);
       outstring(1, "', 'style.backgroundColor','");
-      outstring(1, color);
+      printColorByIndex(colorIndex);
       outstring(1, "')\n");
    end;
 
@@ -138,15 +153,16 @@ begin
    end;
 
    procedure tryMove(dx, dy);
-   integer  dx, dy;
+   integer dx, dy;
    begin
          boolean canMoveResult;
          canMove(canMoveResult, dx, dy);
-         if (canMoveResult) then begin
+         if (canMoveResult) then 
+         begin
             currentPositionX := currentPositionX + dx;
             currentPositionY := currentPositionY + dy;
          end;
-   end
+   end;
 
    comment "First index corresponds to tetronimo";
    comment "Each line has two values corresponding to a single (x,y) pair";
@@ -198,6 +214,7 @@ begin
       integer currentKey;
       boolean done;
       integer currentFrame;
+      integer currentColorIndex;
       
       currentFrame := 0;
       
@@ -207,6 +224,8 @@ begin
       currentPositionX := 5;
       currentPositionY := 0;
       initialiseTetronimo(4);
+
+      currentColorIndex := 1;
       
 
       for i:=0 while !done do
@@ -224,10 +243,15 @@ begin
                tryMove(1,0);
             
             if (currentKey = 83) then
-               tryMove(0,1);
+               begin
+                  boolean canMoveResult;
+                  tryMove(0,1);
+                  canMove(canMoveResult, 0,1);
+                  if canMoveResult then currentFrame := 1;
+               end;
             
 
-            placeCurrentTetronimo;
+            placeCurrentTetronimo(currentColorIndex);
             printMatrix(1, compositeBoard, 18,10);
             
             if (currentFrame = 0) then 
@@ -242,6 +266,8 @@ begin
                         begin
                            lockInCurrentPiece;
                            initialiseTetronimo(5);
+                           currentColorIndex := currentColorIndex + 1;
+                           if currentColorIndex = 8 then currentColorIndex := 1;
                            currentPositionX := 5;
                            currentPositionY := 0;
                         end
