@@ -97,40 +97,40 @@ begin
    tetronimos[0,3,0] := 3; tetronimos[0,3,1] := 0; comment "Square 4";
 
    comment "O Tetronimo";
-   tetronimos[0,0,0] := 0; tetronimos[0,0,1] := 0; comment "Square 1";
-   tetronimos[0,1,0] := 1; tetronimos[0,1,1] := 0; comment "Square 2";
-   tetronimos[0,2,0] := 0; tetronimos[0,2,1] := 1; comment "Square 3";
-   tetronimos[0,3,0] := 1; tetronimos[0,3,1] := 1; comment "Square 4";
+   tetronimos[1,0,0] := 0; tetronimos[1,0,1] := 0; comment "Square 1";
+   tetronimos[1,1,0] := 1; tetronimos[1,1,1] := 0; comment "Square 2";
+   tetronimos[1,2,0] := 0; tetronimos[1,2,1] := 1; comment "Square 3";
+   tetronimos[1,3,0] := 1; tetronimos[1,3,1] := 1; comment "Square 4";
 
    comment "T Tetronimo";
-   tetronimos[0,0,0] := 0; tetronimos[0,0,1] := 0; comment "Square 1";
-   tetronimos[0,1,0] := 1; tetronimos[0,1,1] := 0; comment "Square 2";
-   tetronimos[0,2,0] := 2; tetronimos[0,2,1] := 0; comment "Square 3";
-   tetronimos[0,3,0] := 1; tetronimos[0,3,1] := 1; comment "Square 4";
+   tetronimos[2,0,0] := 0; tetronimos[2,0,1] := 0; comment "Square 1";
+   tetronimos[2,1,0] := 1; tetronimos[2,1,1] := 0; comment "Square 2";
+   tetronimos[2,2,0] := 2; tetronimos[2,2,1] := 0; comment "Square 3";
+   tetronimos[2,3,0] := 1; tetronimos[2,3,1] := 1; comment "Square 4";
 
    comment "J Tetronimo";
-   tetronimos[0,0,0] := 1; tetronimos[0,0,1] := 0; comment "Square 1";
-   tetronimos[0,1,0] := 1; tetronimos[0,1,1] := 1; comment "Square 2";
-   tetronimos[0,2,0] := 0; tetronimos[0,2,1] := 2; comment "Square 3";
-   tetronimos[0,3,0] := 1; tetronimos[0,3,1] := 2; comment "Square 4";
+   tetronimos[3,0,0] := 1; tetronimos[3,0,1] := 0; comment "Square 1";
+   tetronimos[3,1,0] := 1; tetronimos[3,1,1] := 1; comment "Square 2";
+   tetronimos[3,2,0] := 0; tetronimos[3,2,1] := 2; comment "Square 3";
+   tetronimos[3,3,0] := 1; tetronimos[3,3,1] := 2; comment "Square 4";
 
    comment "J Tetronimo";
-   tetronimos[0,0,0] := 0; tetronimos[0,0,1] := 0; comment "Square 1";
-   tetronimos[0,1,0] := 0; tetronimos[0,1,1] := 1; comment "Square 2";
-   tetronimos[0,2,0] := 0; tetronimos[0,2,1] := 2; comment "Square 3";
-   tetronimos[0,3,0] := 1; tetronimos[0,3,1] := 2; comment "Square 4";
+   tetronimos[4,0,0] := 0; tetronimos[4,0,1] := 0; comment "Square 1";
+   tetronimos[4,1,0] := 0; tetronimos[4,1,1] := 1; comment "Square 2";
+   tetronimos[4,2,0] := 0; tetronimos[4,2,1] := 2; comment "Square 3";
+   tetronimos[4,3,0] := 1; tetronimos[4,3,1] := 2; comment "Square 4";
 
    comment "S Tetronimo";
-   tetronimos[0,0,0] := 1; tetronimos[0,0,1] := 0; comment "Square 1";
-   tetronimos[0,1,0] := 2; tetronimos[0,1,1] := 0; comment "Square 2";
-   tetronimos[0,2,0] := 0; tetronimos[0,2,1] := 1; comment "Square 3";
-   tetronimos[0,3,0] := 1; tetronimos[0,3,1] := 1; comment "Square 4";
+   tetronimos[5,0,0] := 1; tetronimos[5,0,1] := 0; comment "Square 1";
+   tetronimos[5,1,0] := 2; tetronimos[5,1,1] := 0; comment "Square 2";
+   tetronimos[5,2,0] := 0; tetronimos[5,2,1] := 1; comment "Square 3";
+   tetronimos[5,3,0] := 1; tetronimos[5,3,1] := 1; comment "Square 4";
 
    comment "Z Tetronimo";
-   tetronimos[0,0,0] := 0; tetronimos[0,0,1] := 0; comment "Square 1";
-   tetronimos[0,1,0] := 1; tetronimos[0,1,1] := 0; comment "Square 2";
-   tetronimos[0,2,0] := 1; tetronimos[0,2,1] := 1; comment "Square 3";
-   tetronimos[0,3,0] := 2; tetronimos[0,3,1] := 1; comment "Square 4";
+   tetronimos[6,0,0] := 0; tetronimos[6,0,1] := 0; comment "Square 1";
+   tetronimos[6,1,0] := 1; tetronimos[6,1,1] := 0; comment "Square 2";
+   tetronimos[6,2,0] := 1; tetronimos[6,2,1] := 1; comment "Square 3";
+   tetronimos[6,3,0] := 2; tetronimos[6,3,1] := 1; comment "Square 4";
 
    begin
       integer i;
