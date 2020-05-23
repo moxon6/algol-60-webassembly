@@ -12,8 +12,11 @@ begin
       integer i, j; integer input;
       for i := 0 step 1 until dim1-1 do
       begin
-         for j := 0 step 1 until dim2-1 do outinteger (channel, a[i,j]);
-         outstring(channel,"\n");
+         for j := 0 step 1 until dim2-1 do 
+            if a[i,j] > 0 then
+               setSquareColor(i,j, "blue")               
+            else
+               setSquareColor(i,j, "green");
       end
    end;
 
@@ -127,43 +130,35 @@ begin
    tetronimos[6,3,0] := 0; tetronimos[6,3,1] := 0; tetronimos[6,3,2] := 0; tetronimos[6,3,3] := 0;
 
    begin
+      integer i;
+      integer currentKey;
+      boolean done;
+      integer array currentTetronimoBuffer[0:3, 0:3];
       
-         integer i;
-         integer currentKey;
-         boolean done;
-         integer array currentTetronimoBuffer[0:3, 0:3];
-         
-         done := false;
-         
-         inline("startup();");
+      done := false;
+      inline("startup();");
 
-         for i:=0 while !done do
+      currentPositionX := 5;
+      currentPositionY := 6;
+
+      for i:=0 while !done do
          begin                        
             if (currentKey = 50) then begin
                done := true;
             end;
-            setSquareColor(0,0,"yellow");
 
-            inline("emscripten_sleep(1000);");
+            for i := 0 step 1 until 5 do
+            begin
+               initialiseTetronimo(i, 2);
+               
+               outstring(1, "\n")
+            end;
+
+            placeCurrentTetronimo;
+            printMatrix(1, tetrisBoard, 18,10);
+            inline("emscripten_sleep(250);");
+            currentPositionY := currentPositionY + 1;
          end;
+   end;
+end;
 
-         
-
-         currentPositionX := 5;
-         currentPositionY := 6;
-         
-         for i := 0 step 1 until 5 do
-         begin
-            initialiseTetronimo(i, 5);
-            printMatrix(1, currentTetronimo, 4,4);
-            outstring(1, "\n")
-         end;
-
-         transposeTetronimo(currentTetronimo, currentTetronimoBuffer);
-         copyTetronimo(currentTetronimoBuffer, currentTetronimo);
-
-         placeCurrentTetronimo;
-         printMatrix(1, tetrisBoard, 18,10);
-         inline("emscripten_sleep(250);");
-      end
-   end
