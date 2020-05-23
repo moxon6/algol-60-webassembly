@@ -212,7 +212,7 @@ begin
       for i:=0 while !done do
          begin
             currentFrame := currentFrame + 1;
-            if (currentFrame = 10) then currentFrame := 0;            
+            if (currentFrame = 5) then currentFrame := 0;
 
             ininteger(0, currentKey);
             if (currentKey = 81) then
@@ -249,7 +249,7 @@ begin
                   end;
                end;
             
-            inline("emscripten_sleep(20);");
+            inline("emscripten_sleep(100);");
             
          end;
    end;
