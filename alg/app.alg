@@ -103,8 +103,8 @@ begin
       outstring(1, "')\n");
    end;
 
-   procedure canMoveDown(result);
-   boolean result;
+   procedure canMove(result, dx, dy);
+   boolean result; integer dx,dy;
    begin
       integer i;
       result := true;
@@ -112,11 +112,14 @@ begin
       begin
          integer candidateYCoordinate;
          integer candidateXCoordinate;
-         candidateYCoordinate := currentTetronimo[i,1] + currentPositionY + 1;
-         candidateXCoordinate := currentTetronimo[i,0] + currentPositionX;
+         candidateYCoordinate := currentTetronimo[i,1] + currentPositionY + dy;
+         candidateXCoordinate := currentTetronimo[i,0] + currentPositionX + dx;
 
          comment "If square is inside the board";
-         if candidateYCoordinate < 18 & candidateXCoordinate < 10 then
+         if candidateYCoordinate > -1  &
+            candidateYCoordinate < 18 &
+            candidateXCoordinate > -1  &
+            candidateXCoordinate < 10 then
             begin
                comment "Check that square is empty";
                integer candidateSquareValue;
@@ -206,9 +209,18 @@ begin
             if (currentKey = 81) then
                done := true;
             if (currentKey = 65) then
-               currentPositionX := currentPositionX - 1;
+               begin
+                  boolean canMoveLeft;
+                  canMove(canMoveLeft, -1, 0);
+                  if (canMoveLeft) then currentPositionX := currentPositionX - 1;
+               end;
+               
             if (currentKey = 68) then
-                  currentPositionX := currentPositionX + 1;
+               begin
+                  boolean canMoveRight;
+                  canMove(canMoveRight, 1, 0);
+                  if (canMoveRight) then currentPositionX := currentPositionX + 1;
+               end;
             
 
             placeCurrentTetronimo;
@@ -219,7 +231,7 @@ begin
                   comment "Auto move down logic";
                   begin
                      boolean canMoveDownResult;
-                     canMoveDown(canMoveDownResult);
+                     canMove(canMoveDownResult, 0, 1);
                      if canMoveDownResult then
                         currentPositionY := currentPositionY + 1
                      else
