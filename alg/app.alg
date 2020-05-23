@@ -69,6 +69,17 @@ begin
       end;
    end;
 
+   procedure lockInCurrentPiece;
+   begin
+      integer i, j;
+      comment "Lock current visible board in";
+      for i := 0 step 1 until 17 do
+         begin
+            for j := 0 step 1 until 9 do
+               lockedPiecesBoard[i,j] := compositeBoard[i,j];
+      end
+   end;
+
    procedure transposeTetronimo(src, dest);
    integer array src; integer array dest;
    begin
@@ -90,6 +101,35 @@ begin
       outstring(1, "', 'style.backgroundColor','");
       outstring(1, color);
       outstring(1, "')\n");
+   end;
+
+   procedure canMoveDown(result);
+   boolean result;
+   begin
+      integer i;
+      result := true;
+      for i := 0 step 1 until 3 do
+      begin
+         integer candidateYCoordinate;
+         integer candidateXCoordinate;
+         candidateYCoordinate := currentTetronimo[i,1] + currentPositionY + 1;
+         candidateXCoordinate := currentTetronimo[i,0] + currentPositionX;
+
+         comment "If square is inside the board";
+         if candidateYCoordinate < 18 & candidateXCoordinate < 10 then
+            begin
+               comment "Check that square is empty";
+               integer candidateSquareValue;
+               candidateSquareValue := lockedPiecesBoard[
+                  candidateYCoordinate,
+                  candidateXCoordinate
+               ];
+               if candidateSquareValue > 0 then
+                  result := false;
+            end
+         else
+            result := false;
+      end
    end;
 
    comment "First index corresponds to tetronimo";
@@ -146,7 +186,8 @@ begin
       inline("startup();");
 
       currentPositionX := 5;
-      currentPositionY := 6;
+      currentPositionY := 0;
+      initialiseTetronimo(4);
 
       for i:=0 while !done do
          begin                        
@@ -154,12 +195,25 @@ begin
                done := true;
             end;
             
-            initialiseTetronimo(6);
 
             placeCurrentTetronimo;
             printMatrix(1, compositeBoard, 18,10);
-            inline("emscripten_sleep(500);");
-            currentPositionY := currentPositionY + 1;
+            inline("emscripten_sleep(200);");
+            begin
+               boolean canMoveDownResult;
+               canMoveDown(canMoveDownResult);
+               if canMoveDownResult then
+                  currentPositionY := currentPositionY + 1
+               else
+                  begin
+                     lockInCurrentPiece;
+                     initialiseTetronimo(5);
+                     currentPositionX := 5;
+                     currentPositionY := 0;
+                  end
+                  
+            end;
+            
          end;
    end;
 end;
