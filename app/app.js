@@ -23,3 +23,22 @@ console.log = (message, ...args) => {
     }
         
 }
+
+const keyBuffer = []
+
+window.onkeydown = e => {
+    if (keyBuffer.length < 2) {
+        keyBuffer.push(e.keyCode)
+        keyBuffer.push(null)
+    } else {
+        keyBuffer[0] = e.keyCode;
+    }
+}
+
+window.prompt = () => {
+    if (!keyBuffer.length) {
+        keyBuffer.push(0);
+        keyBuffer.push(null);
+    }
+    return keyBuffer.shift();
+}

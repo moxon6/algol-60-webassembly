@@ -181,6 +181,9 @@ begin
       integer i;
       integer currentKey;
       boolean done;
+      integer currentFrame;
+      
+      currentFrame := 0;
       
       done := false;
       inline("startup();");
@@ -188,31 +191,49 @@ begin
       currentPositionX := 5;
       currentPositionY := 0;
       initialiseTetronimo(4);
+      
 
       for i:=0 while !done do
-         begin                        
-            if (currentKey = 50) then begin
+         begin
+            currentFrame := currentFrame + 1;
+            if (currentFrame = 10) then currentFrame := 0;
+            
+            outinteger(1, currentFrame);
+            outstring(1, "\n");
+            
+
+            ininteger(0, currentKey);
+            if (currentKey = 81) then
                done := true;
-            end;
+            if (currentKey = 65) then
+               currentPositionX := currentPositionX - 1;
+            if (currentKey = 68) then
+                  currentPositionX := currentPositionX + 1;
             
 
             placeCurrentTetronimo;
             printMatrix(1, compositeBoard, 18,10);
-            inline("emscripten_sleep(200);");
-            begin
-               boolean canMoveDownResult;
-               canMoveDown(canMoveDownResult);
-               if canMoveDownResult then
-                  currentPositionY := currentPositionY + 1
-               else
+            
+            if (currentFrame = 0) then 
+               begin
+                  comment "Auto move down logic";
                   begin
-                     lockInCurrentPiece;
-                     initialiseTetronimo(5);
-                     currentPositionX := 5;
-                     currentPositionY := 0;
-                  end
-                  
-            end;
+                     boolean canMoveDownResult;
+                     canMoveDown(canMoveDownResult);
+                     if canMoveDownResult then
+                        currentPositionY := currentPositionY + 1
+                     else
+                        begin
+                           lockInCurrentPiece;
+                           initialiseTetronimo(5);
+                           currentPositionX := 5;
+                           currentPositionY := 0;
+                        end
+                        
+                  end;
+               end;
+            
+            inline("emscripten_sleep(20);");
             
          end;
    end;
