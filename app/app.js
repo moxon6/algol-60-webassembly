@@ -12,33 +12,39 @@ const params = new URLSearchParams(window.location.search)
 
 const log = console.log.bind(console)
 const CALL_PREFIX = "CALL:"
+const EXECUTE_ORDER_DRAW_THE_SQUARED = "EXECUTE"
+
+let drawRequests = [];
+
 console.log = (message, ...args) => {
     if (message.startsWith(CALL_PREFIX)) {
-        setTimeout(() => eval(message.slice(CALL_PREFIX.length).replace(" ", "")), 0)
-        if (params.get("debug")) {
-            log(message);
-        }
+
+        const drawRequest = message.slice(CALL_PREFIX.length).replace(" ", "");
+        drawRequests.push(drawRequest)
+    } else if (message.startsWith(EXECUTE_ORDER_DRAW_THE_SQUARED)) {
+        eval(drawRequests.join(";"))
+        drawRequests = [];
     } else {
         log(message);
     }
         
 }
 
-const keyBuffer = []
+const keysDown = {};
+window.onkeydown = e => keysDown[e.keyCode] = true;
+window.onkeyup = e => keysDown[e.keyCode] = false;
 
-window.onkeydown = e => {
-    if (keyBuffer.length < 2) {
-        keyBuffer.push(e.keyCode)
-        keyBuffer.push(null)
-    } else {
-        keyBuffer[0] = e.keyCode;
-    }
-}
+const getKeyDown = () => Object.keys(keysDown)
+    .find(key => keysDown[key]);
+
+const inputBuffer = [];
 
 window.prompt = () => {
-    if (!keyBuffer.length) {
-        keyBuffer.push(0);
-        keyBuffer.push(null);
+    
+    if (!inputBuffer.length) {
+        const inputKey = getKeyDown() || 0;
+        inputBuffer.push(inputKey);
+        inputBuffer.push(null);
     }
-    return keyBuffer.shift();
+    return inputBuffer.shift();
 }

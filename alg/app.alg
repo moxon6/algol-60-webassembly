@@ -23,7 +23,8 @@ begin
                setSquareColor(i,j, "blue")               
             else
                setSquareColor(i,j, "green");
-      end
+      end;
+      outstring(1, "EXECUTE\n");
    end;
 
    procedure rotateMatrix(matrix, dimension);
@@ -210,11 +211,7 @@ begin
       for i:=0 while !done do
          begin
             currentFrame := currentFrame + 1;
-            if (currentFrame = 10) then currentFrame := 0;
-            
-            outinteger(1, currentFrame);
-            outstring(1, "\n");
-            
+            if (currentFrame = 10) then currentFrame := 0;            
 
             ininteger(0, currentKey);
             if (currentKey = 81) then
@@ -224,6 +221,9 @@ begin
                
             if (currentKey = 68) then
                tryMove(1,0);
+            
+            if (currentKey = 83) then
+               tryMove(0,1);
             
 
             placeCurrentTetronimo;
