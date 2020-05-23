@@ -7,12 +7,13 @@ begin
 
    procedure printMatrix(channel, a, dim1, dim2);
    integer channel; integer array a; integer dim1; integer dim2;
+   
    begin
-      integer i, j;
+      integer i, j; integer input;
       for i := 0 step 1 until dim1-1 do
       begin
          for j := 0 step 1 until dim2-1 do outinteger (channel, a[i,j]);
-         outstring(channel,"\n")
+         outstring(channel,"\n");
       end
    end;
 
@@ -70,7 +71,6 @@ begin
                dest[i,j] := src[j,i];
       end
    end;
-   
 
    comment "I Tetronimo";
    tetronimos[0,0,0] := 1; tetronimos[0,0,1] := 1; tetronimos[0,0,2] := 1; tetronimos[0,0,3] := 1;
@@ -117,10 +117,25 @@ begin
    begin
       
          integer i;
+         integer currentKey;
+         boolean done;
          integer array currentTetronimoBuffer[0:3, 0:3];
-      
-         inline("startup();");
          
+         done := false;
+         
+         inline("startup();");
+
+         for i:=0 while !done do
+         begin                        
+            if (currentKey = 50) then begin
+               done := true;
+            end;
+            outstring(1, "CALL:setElementProperty(\"#tetris-row-0-cell-0\", \"style.backgroundColor\", \"red\")\n");
+            inline("emscripten_sleep(1000);");
+         end;
+
+         
+
          currentPositionX := 5;
          currentPositionY := 6;
          
@@ -136,6 +151,6 @@ begin
 
          placeCurrentTetronimo;
          printMatrix(1, tetrisBoard, 18,10);
-         inline("emscripten_sleep(20000);");
+         inline("emscripten_sleep(250);");
       end
    end
