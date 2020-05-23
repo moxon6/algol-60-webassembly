@@ -215,6 +215,7 @@ begin
       boolean done;
       integer currentFrame;
       integer currentColorIndex;
+      integer currentPieceIndex;
       
       currentFrame := 0;
       
@@ -226,6 +227,7 @@ begin
       initialiseTetronimo(4);
 
       currentColorIndex := 1;
+      currentPieceIndex := 0;
       
 
       for i:=0 while !done do
@@ -265,9 +267,12 @@ begin
                      else
                         begin
                            lockInCurrentPiece;
-                           initialiseTetronimo(5);
                            currentColorIndex := currentColorIndex + 1;
+                           currentPieceIndex := currentPieceIndex + 1;
                            if currentColorIndex = 8 then currentColorIndex := 1;
+                           if currentPieceIndex = 7 then currentPieceIndex := 0;
+                           
+                           initialiseTetronimo(currentPieceIndex);
                            currentPositionX := 5;
                            currentPositionY := 0;
                         end
