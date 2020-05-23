@@ -135,6 +135,17 @@ begin
       end
    end;
 
+   procedure tryMove(dx, dy);
+   integer  dx, dy;
+   begin
+         boolean canMoveResult;
+         canMove(canMoveResult, dx, dy);
+         if (canMoveResult) then begin
+            currentPositionX := currentPositionX + dx;
+            currentPositionY := currentPositionY + dy;
+         end;
+   end
+
    comment "First index corresponds to tetronimo";
    comment "Each line has two values corresponding to a single (x,y) pair";
 
@@ -209,18 +220,10 @@ begin
             if (currentKey = 81) then
                done := true;
             if (currentKey = 65) then
-               begin
-                  boolean canMoveLeft;
-                  canMove(canMoveLeft, -1, 0);
-                  if (canMoveLeft) then currentPositionX := currentPositionX - 1;
-               end;
+               tryMove(-1,0);
                
             if (currentKey = 68) then
-               begin
-                  boolean canMoveRight;
-                  canMove(canMoveRight, 1, 0);
-                  if (canMoveRight) then currentPositionX := currentPositionX + 1;
-               end;
+               tryMove(1,0);
             
 
             placeCurrentTetronimo;
