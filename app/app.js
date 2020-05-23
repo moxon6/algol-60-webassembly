@@ -8,11 +8,16 @@ function setElementProperty(selector, prop, value) {
     obj[path[0]] = value;
 }
 
+const params = new URLSearchParams(window.location.search)
+
 const log = console.log.bind(console)
 const CALL_PREFIX = "CALL:"
 console.log = (message, ...args) => {
     if (message.startsWith(CALL_PREFIX)) {
-        setTimeout(() => eval(message.slice(CALL_PREFIX.length)), 0)
+        setTimeout(() => eval(message.slice(CALL_PREFIX.length).replace(" ", "")), 0)
+        if (params.get("debug")) {
+            log(message);
+        }
     } else {
         log(message);
     }

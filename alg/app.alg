@@ -72,6 +72,18 @@ begin
       end
    end;
 
+   procedure setSquareColor(x,y,color);
+   integer x,y; string color;
+   begin
+      outstring(1, "CALL:setElementProperty('#tetris-row-");
+      outinteger(1, x);
+      outstring(1, "-cell-");
+      outinteger(1, y);
+      outstring(1, "', 'style.backgroundColor','");
+      outstring(1, color);
+      outstring(1, "')\n");
+   end;
+
    comment "I Tetronimo";
    tetronimos[0,0,0] := 1; tetronimos[0,0,1] := 1; tetronimos[0,0,2] := 1; tetronimos[0,0,3] := 1;
    tetronimos[0,1,0] := 0; tetronimos[0,1,1] := 0; tetronimos[0,1,2] := 0; tetronimos[0,1,3] := 0;
@@ -130,7 +142,8 @@ begin
             if (currentKey = 50) then begin
                done := true;
             end;
-            outstring(1, "CALL:setElementProperty(\"#tetris-row-0-cell-0\", \"style.backgroundColor\", \"red\")\n");
+            setSquareColor(0,0,"yellow");
+
             inline("emscripten_sleep(1000);");
          end;
 
