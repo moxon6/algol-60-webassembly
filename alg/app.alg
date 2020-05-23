@@ -24,6 +24,7 @@ begin
             else
                setSquareColor(i,j, "green");
       end;
+      comment "We queue up draw commands and execute in batch for performance";
       outstring(1, "EXECUTE\n");
    end;
 
