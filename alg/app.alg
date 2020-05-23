@@ -1,7 +1,7 @@
 begin
    integer array tetrisBoard[0:17,0:9];
    integer array tetronimos[0:6,0:3, 0:1];
-   integer array currentTetronimo[0:3, 0:3];
+   integer array currentTetronimo[0:3, 0:1];
    integer currentPositionX;
    integer currentPositionY;
 
@@ -31,14 +31,14 @@ begin
       end
    end;
 
-   procedure initialiseTetronimo(tetronimoIndex, color);
-   integer tetronimoIndex; integer color;
+   procedure initialiseTetronimo(tetronimoIndex);
+   integer tetronimoIndex;
    begin
       integer i, j;
       for i := 0 step 1 until 3 do
       begin
-         for j := 0 step 1 until 3 do
-            currentTetronimo[i,j] := tetronimos[tetronimoIndex,i,j] * color;
+            currentTetronimo[i,0] := tetronimos[tetronimoIndex,i,0];
+            currentTetronimo[i,1] := tetronimos[tetronimoIndex,i,1];
       end
    end;
 
@@ -47,21 +47,11 @@ begin
       integer i, j;
       for i := 0 step 1 until 3 do
       begin
-         for j := 0 step 1 until 3 do
-            tetrisBoard[i + currentPositionY, j + currentPositionX] := currentTetronimo[i,j];
+         tetrisBoard[
+            currentTetronimo[i,1] + currentPositionY,
+            currentTetronimo[i,0] + currentPositionX
+         ] := 1;
       end;
-      outstring(1, "\n");
-   end;
-
-   procedure copyTetronimo(src, dest);
-   integer array src; integer array dest;
-   begin
-      integer i, j;
-      for i := 0 step 1 until 3 do
-         begin
-            for j := 0 step 1 until 3 do
-               dest[i,j] := src[i,j];
-      end
    end;
 
    procedure transposeTetronimo(src, dest);
@@ -70,7 +60,7 @@ begin
       integer i, j;
       for i := 0 step 1 until 3 do
          begin
-            for j := 0 step 1 until 3 do
+            for j := 0 step 1 until 1 do
                dest[i,j] := src[j,i];
       end
    end;
@@ -136,7 +126,6 @@ begin
       integer i;
       integer currentKey;
       boolean done;
-      integer array currentTetronimoBuffer[0:3, 0:3];
       
       done := false;
       inline("startup();");
@@ -149,17 +138,12 @@ begin
             if (currentKey = 50) then begin
                done := true;
             end;
-
-            for i := 0 step 1 until 5 do
-            begin
-               initialiseTetronimo(i, 2);
-               
-               outstring(1, "\n")
-            end;
+            
+            initialiseTetronimo(4);
 
             placeCurrentTetronimo;
             printMatrix(1, tetrisBoard, 18,10);
-            inline("emscripten_sleep(250);");
+            inline("emscripten_sleep(500);");
             currentPositionY := currentPositionY + 1;
          end;
    end;
