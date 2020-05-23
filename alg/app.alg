@@ -1,7 +1,10 @@
 begin
-   integer array tetrisBoard[0:17,0:9];
+   integer array lockedPiecesBoard[0:17,0:9];
+   integer array compositeBoard[0:17,0:9];
+   
    integer array tetronimos[0:6,0:3, 0:1];
    integer array currentTetronimo[0:3, 0:1];
+   
    integer currentPositionX;
    integer currentPositionY;
 
@@ -44,12 +47,21 @@ begin
 
    procedure placeCurrentTetronimo;
    begin
-      integer i, j;
-      for i := 0 step 1 until 3 do
+      integer i, j, k;
+
+      comment "Copy locked pieces into composite board";
+      for i := 0 step 1 until 17 do
+         begin
+            for j := 0 step 1 until 9 do
+               compositeBoard[i,j] := lockedPiecesBoard[i,j];
+      end
+
+      comment "Insert current tetronimo into current board";
+      for k := 0 step 1 until 3 do
       begin
-         tetrisBoard[
-            currentTetronimo[i,1] + currentPositionY,
-            currentTetronimo[i,0] + currentPositionX
+         compositeBoard[
+            currentTetronimo[k,1] + currentPositionY,
+            currentTetronimo[k,0] + currentPositionX
          ] := 1;
       end;
    end;
@@ -139,10 +151,10 @@ begin
                done := true;
             end;
             
-            initialiseTetronimo(4);
+            initialiseTetronimo(6);
 
             placeCurrentTetronimo;
-            printMatrix(1, tetrisBoard, 18,10);
+            printMatrix(1, compositeBoard, 18,10);
             inline("emscripten_sleep(500);");
             currentPositionY := currentPositionY + 1;
          end;
