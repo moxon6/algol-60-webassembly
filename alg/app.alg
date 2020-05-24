@@ -144,14 +144,14 @@ begin
    procedure canMove(result, dx, dy);
    boolean result; integer dx,dy;
    begin
-      integer i;
+      integer squareIndex;
       result := true;
-      for i := 0 step 1 until 3 do
+      for squareIndex := 0 step 1 until 3 do
       begin
          boolean canPlaceResult;
          canPlace(
-            currentTetronimo[i,0] + currentPositionX + dx,
-            currentTetronimo[i,1] + currentPositionY + dy,
+            currentTetronimo[squareIndex,0] + currentPositionX + dx,
+            currentTetronimo[squareIndex,1] + currentPositionY + dy,
             canPlaceResult
          );
          result := result & canPlaceResult;
@@ -173,20 +173,16 @@ begin
    procedure tryRotate(currentPieceIndex);
    integer currentPieceIndex;
    begin
-      integer i;
+      integer squareIndex;
       boolean tryRotateResult;
       tryRotateResult := true;
       canRotate(tryRotateResult, currentPieceIndex);
       if tryRotateResult then
          begin
-            for i := 0 step 1 until 3 do
-               begin
-                     integer x,y;
-                     x := currentTetronimo[i,0];
-                     y := currentTetronimo[i,1];
-      
-                     currentTetronimo[i,0] := - y + tetronimosOffset[currentPieceIndex,0];
-                     currentTetronimo[i,1] :=   x + tetronimosOffset[currentPieceIndex,1];
+            for squareIndex := 0 step 1 until 3 do
+               begin      
+                     currentTetronimo[squareIndex,0] := - currentTetronimo[squareIndex,0] + tetronimosOffset[currentPieceIndex,0];
+                     currentTetronimo[squareIndex,1] :=   currentTetronimo[squareIndex,1] + tetronimosOffset[currentPieceIndex,1];
                end;
          end;
          
@@ -195,14 +191,14 @@ begin
    procedure canRotate(out, currentPieceIndex);
    boolean out; integer currentPieceIndex;
    begin
-      integer i;
-      for i := 0 step 1 until 3 do
+      integer squareIndex;
+      for squareIndex := 0 step 1 until 3 do
       begin
             integer x,y;
             boolean canPlaceResult;
 
-            x := - currentTetronimo[i,1] + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
-            y :=   currentTetronimo[i,0] + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
+            x := - currentTetronimo[squareIndex,1] + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
+            y :=   currentTetronimo[squareIndex,0] + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
 
             canPlace(x, y, canPlaceResult);
             out := out & canPlaceResult;
