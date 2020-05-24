@@ -236,10 +236,6 @@ begin
       floor := (a / b);
       comment "Force floor division";
       if (floor * b > a) then floor := floor - 1;
-      outinteger(1, a);
-      outinteger(1, b);
-      outinteger(1, floor);
-      outstring(1, "<--A,B,Floor\n");
       a := a - (b * floor);
    end;
 
