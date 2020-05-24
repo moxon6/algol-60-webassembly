@@ -141,11 +141,11 @@ begin
       outstring(1, "')\n");
    end;
 
-   procedure canMove(result, dx, dy);
-   boolean result; integer dx,dy;
+   procedure canMove(out, dx, dy);
+   boolean out; integer dx,dy;
    begin
       integer squareIndex;
-      result := true;
+      out := true;
       for squareIndex := 0 step 1 until 3 do
       begin
          boolean canPlaceResult;
@@ -154,7 +154,7 @@ begin
             currentTetronimo[squareIndex,1] + currentPositionY + dy,
             canPlaceResult
          );
-         result := result & canPlaceResult;
+         out := out & canPlaceResult;
       end
    end;
 
@@ -206,16 +206,16 @@ begin
       end
    end;
 
-   procedure canPlace(x,y, canPlaceResult);
-   integer x, y; boolean canPlaceResult;
+   procedure canPlace(x,y, out);
+   integer x, y; boolean out;
    begin
-      canPlaceResult := (
+      out := (
          y > -1 &
          y < 18 &
          x > -1 &
          x < 10
       );
-      if canPlaceResult then canPlaceResult := canPlaceResult & lockedPiecesBoard[y, x] = 0;
+      if out then out := out & lockedPiecesBoard[y, x] = 0;
    end;
 
    procedure modulo(a,b);
