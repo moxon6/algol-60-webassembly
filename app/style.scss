@@ -4,7 +4,17 @@ p {
 
 .game-area {
     display: flex;
-    flex-direction: row;;
+    flex-direction: row;
+}
+
+.container {
+    background-color: #1a1a1a;
+}
+
+.jumbotron {
+    background: transparent;
+    color: white;
+    background-color: #1f1f1f;
 }
 
 .tetris-board {
@@ -70,7 +80,7 @@ $colors: aqua, blue, orange, yellow, green, purple, red;
     }
 }
 
-#game-over {
+@mixin message-container {
     color: white;
     position: absolute;
     width: 100%;
@@ -81,11 +91,27 @@ $colors: aqua, blue, orange, yellow, green, purple, red;
     font-size: xx-large;
     text-transform: uppercase;
     font-family: monospace;
-    
+}
+
+@mixin message {
+    background-color: rgb(75,75,75);
+    padding: 12px;   
+    line-height: 16px;;
+}
+
+#game-over {
+    @include message-container;
+
     #game-over-message {
         display: none;
-        background-color: rgb(75,75,75);
-        padding: 12px;   
-        line-height: 16px;;
+        @include message
+    }
+} 
+
+#press-key {
+    @include message-container;
+
+    #press-key-message {
+        @include message
     }
 } 

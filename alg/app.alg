@@ -14,6 +14,7 @@ begin
 
    comment "Random seed populated externally for LCG randInt";
    integer seed;
+   integer score;
 
    integer array currentTetronimo[0:3, 0:1];
    
@@ -92,6 +93,7 @@ begin
    integer rowIndex;
    begin
       integer i, j;
+      score := score + 100;
       for i := rowIndex step -1 until 1 do
          begin
             for j := 0 step 1 until 9 do 
@@ -237,6 +239,14 @@ begin
    integer out;
    out := out + 1;
 
+   procedure drawScore;
+   begin
+      outstring(1, "CALL:setElementProperty('#score-value', 'innerHTML', '");
+      outinteger(1, score);
+      outstring(1, "')\n");
+      outstring(1, "EXECUTE\n");
+   end
+
    comment "First index corresponds to tetronimo";
    comment "Each line has two values corresponding to a single (x,y) pair";
 
@@ -312,8 +322,9 @@ begin
       currentFrame := 0;
       rotationDelay:= 0;
       done := false;
-      currentPositionX := 5;
+      currentPositionX := 4;
       currentPositionY := 0;
+      score := 0;
       
       randInt(7, currentPieceIndex);
       
@@ -321,6 +332,15 @@ begin
 
       randInt(7, currentColorIndex);
       increment(currentColorIndex);
+      
+      
+      for i:= 0 while currentKey = 0 do begin
+         ininteger(0, currentKey);
+         inline("emscripten_sleep(10);");
+      end;
+
+      outstring(1, "CALL:setElementProperty('#press-key-message', 'style.display', 'none')\n");
+      outstring(1, "EXECUTE\n");
       
 
       for i:=0 while !done do
@@ -354,6 +374,7 @@ begin
 
             placeCurrentTetronimo(currentColorIndex);
             drawBoard(compositeBoard);
+            drawScore;
             
             if (currentFrame = 0) then 
                begin
@@ -373,7 +394,7 @@ begin
                            randInt(7, currentPieceIndex);
                            begin
                               boolean canPlaceResult;
-                              currentPositionX := 5;
+                              currentPositionX := 4;
                               currentPositionY := 0;
 
                               initialiseTetronimo(currentPieceIndex);
