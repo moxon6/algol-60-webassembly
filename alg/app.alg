@@ -34,11 +34,11 @@ begin
    procedure drawBoard(board);
    integer array board;
    begin
-      integer i, j; integer input;
-      for i := 0 step 1 until 17 do
+      integer x,y;
+      for y := 0 step 1 until 17 do
       begin
-         for j := 0 step 1 until 9 do 
-            setSquareColor(i,j, board[i,j]);
+         for x := 0 step 1 until 9 do 
+            setSquareColor(y,x, board[y,x]);
       end;
       comment "We queue up draw commands and execute in batch for performance";
       outstring(1, "EXECUTE\n");
@@ -58,59 +58,59 @@ begin
    procedure placeCurrentTetronimo(currentColorIndex);
    integer currentColorIndex;
    begin
-      integer i, j, k;
+      integer x,y,squareIndex;
 
       comment "Copy locked pieces into composite board";
-      for i := 0 step 1 until 17 do
+      for y := 0 step 1 until 17 do
          begin
-            for j := 0 step 1 until 9 do
-               compositeBoard[i,j] := lockedPiecesBoard[i,j];
+            for x := 0 step 1 until 9 do
+               compositeBoard[y,x] := lockedPiecesBoard[y,x];
       end
 
       comment "Insert current tetronimo into current board";
-      for k := 0 step 1 until 3 do
+      for squareIndex := 0 step 1 until 3 do
       begin
          compositeBoard[
-            currentTetronimo[k,1] + currentPositionY,
-            currentTetronimo[k,0] + currentPositionX
+            currentTetronimo[squareIndex,1] + currentPositionY,
+            currentTetronimo[squareIndex,0] + currentPositionX
          ] := currentColorIndex;
       end;
    end;
 
    procedure lockInCurrentPiece;
    begin
-      integer i, j;
+      integer x,y;
       comment "Lock current visible board in";
-      for i := 0 step 1 until 17 do
+      for y := 0 step 1 until 17 do
          begin
-            for j := 0 step 1 until 9 do
-               lockedPiecesBoard[i,j] := compositeBoard[i,j];
+            for x := 0 step 1 until 9 do
+               lockedPiecesBoard[y,x] := compositeBoard[y,x];
       end
    end;
 
    procedure clearLine(rowIndex);
    integer rowIndex;
    begin
-      integer i, j;
-      score := score + 100;
-      for i := rowIndex step -1 until 1 do
+      integer x,y;
+      for y := rowIndex step -1 until 1 do
          begin
-            for j := 0 step 1 until 9 do 
-               lockedPiecesBoard[i,j] := lockedPiecesBoard[i -1,j];
+            for x := 0 step 1 until 9 do 
+               lockedPiecesBoard[y,x] := lockedPiecesBoard[y-1,x];
          end
    end;
 
    procedure clearFullLines;
    begin
-      integer i, j;
-      for i := 0 step 1 until 17 do
+      integer x,y;
+      for y := 0 step 1 until 17 do
          begin
             boolean fullLine;
             fullLine := true;
-            for j := 0 step 1 until 9 do fullLine := fullLine & lockedPiecesBoard[i,j] > 0;
+            for x := 0 step 1 until 9 do fullLine := fullLine & lockedPiecesBoard[y,x] > 0;
             if (fullLine) then 
                begin
-                  clearLine(i);
+                  score := score + 100;
+                  clearLine(y);
                end;
          end
    end;
@@ -118,7 +118,6 @@ begin
    procedure setSquareColor(x,y,colorIndex);
    integer x,y,colorIndex;
    begin
-
       procedure printColorByIndex(colorIndex);
       integer colorIndex;
       begin
@@ -226,10 +225,9 @@ begin
    procedure modulo(a,b);
    integer a, b;
    begin
-      comment "Floor cannot be inlined because the expression is simplified during compilation and cancels out";
       integer floor;
       floor := (a / b);
-      comment "Force floor division";
+      comment "Enforce floor division (ceiling by default)";
       if (floor * b > a) then floor := floor - 1;
       a := a - (b * floor);
    end;
@@ -327,13 +325,13 @@ begin
       
       randInt(7, currentPieceIndex);
       
-      initialiseTetronimo(currentPieceIndex);
-
       randInt(7, currentColorIndex);
       increment(currentColorIndex);
       
+      initialiseTetronimo(currentPieceIndex);
       
-      for i:= 0 while currentKey = 0 do begin
+      
+      for i := 0 while currentKey = 0 do begin
          ininteger(0, currentKey);
          inline("emscripten_sleep(10);");
       end;
@@ -343,7 +341,7 @@ begin
       outstring(1, "EXECUTE\n");
       
 
-      for i:=0 while !done do
+      for i := 0 while !done do
          begin
             currentFrame := currentFrame + 1;
             modulo(currentFrame, 10);
