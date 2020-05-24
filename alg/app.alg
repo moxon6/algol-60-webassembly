@@ -350,13 +350,11 @@ begin
                               currentPositionX := 5;
                               currentPositionY := 0;
 
+                              initialiseTetronimo(currentPieceIndex);
                               canMove(canPlaceResult,0,0);
 
-                              if (canPlaceResult) then 
+                              if (!canPlaceResult) then 
                               begin
-                                 initialiseTetronimo(currentPieceIndex);
-                                 
-                              end else begin
                                  done := true;
                                  outstring(1, "CALL:setElementProperty('#game-over-message', 'style.display', 'block')\n");
                                  outstring(1, "EXECUTE\n");
