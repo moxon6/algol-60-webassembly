@@ -177,7 +177,7 @@ begin
       integer i;
       boolean tryRotateResult;
       tryRotateResult := true;
-      canRotate(tryRotateResult);
+      canRotate(tryRotateResult, currentPieceIndex);
       if tryRotateResult then
          begin
             for i := 0 step 1 until 3 do
@@ -193,19 +193,26 @@ begin
          
    end;
 
-   procedure canRotate(out);
-   boolean out;
+   procedure canRotate(out, currentPieceIndex);
+   boolean out; integer currentPieceIndex;
    begin
       integer i;
       for i := 0 step 1 until 3 do
       begin
             integer x,y;
+
+            integer newX, newY;
+            
             x := currentTetronimo[i,0];
             y := currentTetronimo[i,1];
-            if (currentPositionX + 1 - y < 0) then out := false;
-            if (currentPositionX + 1 - y > 9) then out := false;
-            if (currentPositionY + 1 + x < 0) then out := false;
-            if (currentPositionY + 1 + x > 17) then out := false;
+
+            newX := - y + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
+            newY :=   x + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
+
+            if (newX < 0) then out := false;
+            if (newX > 9) then out := false;
+            if (newY < 0) then out := false;
+            if (newY > 17) then out := false;
       end
    end;
 
