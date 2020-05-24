@@ -29,7 +29,6 @@ begin
       modulo(seed, 134456);
       out := seed;
       modulo(out, max);
-      if (out < 0) then out := -out;
    end;
 
    procedure drawBoard(board);
