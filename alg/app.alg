@@ -203,35 +203,37 @@ begin
       for i := 0 step 1 until 3 do
       begin
             integer x,y;
+            boolean canPlaceResult;
 
-            integer newX, newY;
-            
-            x := currentTetronimo[i,0];
-            y := currentTetronimo[i,1];
+            x := - currentTetronimo[i,1] + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
+            y :=   currentTetronimo[i,0] + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
 
-            newX := - y + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
-            newY :=   x + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
-
-            comment "If square is inside the board";
-            if newY > -1  &
-               newY < 18 &
-               newX > -1  &
-               newX < 10 then
-               begin
-                  comment "Check that square is empty";
-                  integer candidateSquareValue;
-                  candidateSquareValue := lockedPiecesBoard[
-                     newY,
-                     newX
-                  ];
-                  if candidateSquareValue > 0 then
-                     out := false;
-               end
-            else
-               out := false;
+            canPlace(x, y, canPlaceResult);
+            out := out & canPlaceResult;
 
       end
    end;
+
+   procedure canPlace(x,y, canPlaceResult);
+   integer x, y; boolean canPlaceResult;
+   begin
+      canPlaceResult := true;
+      comment "If square is inside the board";
+      if y > -1  &
+         y < 18 &
+         x > -1  &
+         x < 10 then
+         begin
+            comment "Check that square is empty";
+            integer candidateSquareValue;
+            candidateSquareValue := lockedPiecesBoard[y, x];
+            if candidateSquareValue > 0 then
+               canPlaceResult := false;
+         end
+      else
+         canPlaceResult := false;
+   end;
+   
 
    procedure modulo(a,b);
    integer a, b;
@@ -402,4 +404,3 @@ begin
          end;
    end;
 end;
-
