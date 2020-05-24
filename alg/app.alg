@@ -31,16 +31,16 @@ begin
       if (out < 0) then out := -out;
    end;
 
-   procedure printMatrix(channel, a, dim1, dim2);
-   integer channel; integer array a; integer dim1; integer dim2;
+   procedure drawBoard(board);
+   integer array board;
    begin
       integer i, j; integer input;
-      for i := 0 step 1 until dim1-1 do
+      for i := 0 step 1 until 17 do
       begin
-         for j := 0 step 1 until dim2-1 do 
-            if a[i,j] > 0 then
+         for j := 0 step 1 until 9 do 
+            if board[i,j] > 0 then
                begin
-                  setSquareColor(i,j, a[i,j]);
+                  setSquareColor(i,j, board[i,j]);
                end
             else
                setSquareColor(i,j, 0);
@@ -360,7 +360,7 @@ begin
                end;
 
             placeCurrentTetronimo(currentColorIndex);
-            printMatrix(1, compositeBoard, 18,10);
+            drawBoard(compositeBoard);
             
             if (currentFrame = 0) then 
                begin
