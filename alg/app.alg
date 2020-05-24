@@ -38,12 +38,7 @@ begin
       for i := 0 step 1 until 17 do
       begin
          for j := 0 step 1 until 9 do 
-            if board[i,j] > 0 then
-               begin
-                  setSquareColor(i,j, board[i,j]);
-               end
-            else
-               setSquareColor(i,j, 0);
+            setSquareColor(i,j, board[i,j]);
       end;
       comment "We queue up draw commands and execute in batch for performance";
       outstring(1, "EXECUTE\n");
