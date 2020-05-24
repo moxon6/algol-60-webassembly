@@ -181,8 +181,11 @@ begin
          begin
             for squareIndex := 0 step 1 until 3 do
                begin      
-                     currentTetronimo[squareIndex,0] := - currentTetronimo[squareIndex,0] + tetronimosOffset[currentPieceIndex,0];
-                     currentTetronimo[squareIndex,1] :=   currentTetronimo[squareIndex,1] + tetronimosOffset[currentPieceIndex,1];
+                  integer x,y;
+                  x := currentTetronimo[squareIndex,0];
+                  y := currentTetronimo[squareIndex,1];
+                  currentTetronimo[squareIndex,0] := - y + tetronimosOffset[currentPieceIndex,0];
+                  currentTetronimo[squareIndex,1] :=   x + tetronimosOffset[currentPieceIndex,1];
                end;
          end;
          
