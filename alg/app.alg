@@ -104,17 +104,6 @@ begin
       end
    end;
 
-   procedure transposeTetronimo(src, dest);
-   integer array src; integer array dest;
-   begin
-      integer i, j;
-      for i := 0 step 1 until 3 do
-         begin
-            for j := 0 step 1 until 1 do
-               dest[i,j] := src[j,i];
-      end
-   end;
-
    procedure printColorByIndex(colorIndex);
    integer colorIndex;
    begin
