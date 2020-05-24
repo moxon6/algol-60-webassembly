@@ -6,7 +6,7 @@
   "scripts": {
     "build:watch": "find c alg scripts -type f | entr ./scripts/build.sh",
     "build-html:watch": "pug src/index.pug -o app -P -w",
-    "build-sass:watch": "node-sass src/style.scss app/style.css -w",
+    "build-sass": "node-sass src/style.scss app/style.css",
     "start": "cd app && python2 -m SimpleHTTPServer 5500",
     "deploy": "gh-pages -d app"
   },

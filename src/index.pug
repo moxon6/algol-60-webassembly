@@ -22,12 +22,20 @@
                             p(id="game-over-message") Game Over
                         div(id="press-key")
                             p(id="press-key-message") Press any key to Start
-                div(class="score-section")
-                    p(id="score")
-                        span(id="score-label")
-                            | Score: 
-                        span(id="score-value")
-                            | 0
+                div(class="sidebar")
+                    div(class="score-section")
+                        p(id="score")
+                            span(id="score-label")
+                                | Score: 
+                            span(id="score-value")
+                                | 0
+                    div(class="controls-section")
+                        div(class="controls")
+                            h2 Controls
+                            h3 A/D : Left/Right
+                            h3 S   : Down
+                            h3 W   : Rotate
+                        
         </div>
         <audio id="audio-theme" loop>
             <source src="tetris.ogg" type="audio/ogg" preload="auto" >
