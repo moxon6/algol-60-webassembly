@@ -281,17 +281,17 @@ begin
       integer currentPieceIndex;
       integer rotationDelay; comment "Delay to prevent over-eager rotation";
       
+      inline("startup();");
+      
       currentFrame := 0;
       rotationDelay:= 0;
-      
       done := false;
-      inline("startup();");
-
       currentPositionX := 5;
       currentPositionY := 0;
+      
       randInt(7, currentPieceIndex);
+      
       initialiseTetronimo(currentPieceIndex);
-
 
       randInt(7, currentColorIndex);
       increment(currentColorIndex);
@@ -347,13 +347,15 @@ begin
                            randInt(7, currentPieceIndex);
                            begin
                               boolean canPlaceResult;
-                              canPlace(5,0, canPlaceResult);
+                              currentPositionX := 5;
+                              currentPositionY := 0;
+
+                              canMove(canPlaceResult,0,0);
 
                               if (canPlaceResult) then 
                               begin
                                  initialiseTetronimo(currentPieceIndex);
-                                 currentPositionX := 5;
-                                 currentPositionY := 0;
+                                 
                               end else begin
                                  done := true;
                                  outstring(1, "CALL:setElementProperty('#game-over-message', 'style.display', 'block')\n");
