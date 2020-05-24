@@ -99,22 +99,23 @@ begin
       end
    end;
 
-   procedure printColorByIndex(colorIndex);
-   integer colorIndex;
-   begin
-      if (colorIndex = 1) then outstring(1, "aqua")
-      else if (colorIndex = 2) then outstring(1, "blue")
-      else if (colorIndex = 3) then outstring(1, "orange")
-      else if (colorIndex = 4) then outstring(1, "yellow")
-      else if (colorIndex = 5) then outstring(1, "green")
-      else if (colorIndex = 6) then outstring(1, "purple")
-      else if (colorIndex = 7) then outstring(1, "red")
-      else outstring(1, "transparent");
-   end;
-
    procedure setSquareColor(x,y,colorIndex);
    integer x,y,colorIndex;
    begin
+
+      procedure printColorByIndex(colorIndex);
+      integer colorIndex;
+      begin
+         if (colorIndex = 1) then outstring(1, "aqua")
+         else if (colorIndex = 2) then outstring(1, "blue")
+         else if (colorIndex = 3) then outstring(1, "orange")
+         else if (colorIndex = 4) then outstring(1, "yellow")
+         else if (colorIndex = 5) then outstring(1, "green")
+         else if (colorIndex = 6) then outstring(1, "purple")
+         else if (colorIndex = 7) then outstring(1, "red")
+         else outstring(1, "transparent");
+      end;
+
       outstring(1, "CALL:setElementProperty('#tetris-row-");
       outinteger(1, x);
       outstring(1, "-cell-");
