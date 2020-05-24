@@ -1,11 +1,18 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
         <script src="app.js"></script>
         <script src="algol-wasm/index.js"></script>
     </head>
-    <body>
-        <div>
+    <body class="container vsc-initialized">
+        <div class="jumbotron">
+        <h1 class="display-3">WebAssembly ALGOL60 Tetris</h1>
+        <p class="lead">Tetris written in ALGOL60, compiled to WebAssembly. </p>
+        </div>
+
+        <div class="main-content">
+
             <div class="tetris-board">
                     each yCoord in Array(18).fill(0).map((x,i) => i)
                         div(class="tetris-row", id=`tetris-row-${yCoord}`)
@@ -13,5 +20,6 @@
                                 div(class="tetris-cell", id=`tetris-row-${yCoord}-cell-${xCoord}`)
             </div>
         </div>
+
     </body>
 </html>

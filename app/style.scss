@@ -14,9 +14,16 @@
 }
 
 .tetris-cell {
-    background-color: green;
+    background-color: transparent;
     flex: 1;
-    border: 1px solid rgba(127,127,127,0.5);
     padding: 1px;
     box-sizing: border-box;
+    border-radius: 8px;
+}
+
+.main-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: monospace;
 }
