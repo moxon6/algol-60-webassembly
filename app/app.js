@@ -8,47 +8,31 @@ function setElementProperty(selector, prop, value) {
     obj[path[0]] = value;
 }
 
-const params = new URLSearchParams(window.location.search)
-
 const log = console.log.bind(console)
-const CALL_PREFIX = "CALL:"
-const EXECUTE_ORDER_DRAW_THE_SQUARED = "EXECUTE"
 
 let drawRequests = [];
-
 console.log = (message, ...args) => {
-    if (message.startsWith(CALL_PREFIX)) {
-
-        const drawRequest = message.slice(CALL_PREFIX.length).replace(" ", "");
-        drawRequests.push(drawRequest)
-    } else if (message.startsWith(EXECUTE_ORDER_DRAW_THE_SQUARED)) {
+    if (message.startsWith("CALL:")) {
+        drawRequests.push( message.slice("CALL:".length).replace(" ", "") )
+    } else if (message.startsWith("EXECUTE")) {
         eval(drawRequests.join(";"))
         drawRequests = [];
     } else {
         log(message);
     }
-        
 }
 
 const keysDown = {};
 window.onkeydown = e => keysDown[e.keyCode] = true;
 window.onkeyup = e => keysDown[e.keyCode] = false;
 
-const getKeyDown = () => Object.keys(keysDown)
-    .find(key => keysDown[key]);
+const getKeyDown = () => Object.keys(keysDown).find(key => keysDown[key]);
 
-// First input request is for a random seed
-const inputBuffer = [
-    Math.floor(Math.random() * 500),
-    null
-];
+const inputBuffer = [ Math.floor(Math.random() * 500), null ]; // First input request is for a random seed
 
-
-window.prompt = () => {
-    
+window.prompt = () => {    
     if (!inputBuffer.length) {
-        const inputKey = getKeyDown() || 0;
-        inputBuffer.push(inputKey);
+        inputBuffer.push(getKeyDown() || 0);
         inputBuffer.push(null);
     }
     return inputBuffer.shift();
