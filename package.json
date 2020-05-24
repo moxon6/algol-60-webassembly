@@ -7,11 +7,13 @@
     "build:watch": "find c alg scripts -type f | entr ./scripts/build.sh",
     "build-html:watch": "pug app/index.pug -P -w",
     "build-sass:watch": "node-sass app/style.scss app/style.css -w",
-    "start": "cd app && python2 -m SimpleHTTPServer 5500"
+    "start": "cd app && python2 -m SimpleHTTPServer 5500",
+    "deploy": "gh-pages -d app"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "gh-pages": "^2.2.0",
     "node-sass": "^4.14.1",
     "pug-cli": "^1.0.0-alpha6"
   }
