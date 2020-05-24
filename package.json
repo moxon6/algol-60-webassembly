@@ -6,11 +6,13 @@
   "scripts": {
     "build:watch": "find c alg scripts -type f | entr ./scripts/build.sh",
     "build-html:watch": "pug app/index.pug -P -w",
+    "build-sass:watch": "node-sass app/style.scss app/style.css -w",
     "start": "cd app && python2 -m SimpleHTTPServer 5500"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "node-sass": "^4.14.1",
     "pug-cli": "^1.0.0-alpha6"
   }
 }

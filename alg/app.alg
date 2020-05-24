@@ -112,7 +112,7 @@ begin
       else if (colorIndex = 5) then outstring(1, "green")
       else if (colorIndex = 6) then outstring(1, "purple")
       else if (colorIndex = 7) then outstring(1, "red")
-      else outstring(1, "black");
+      else outstring(1, "transparent");
    end;
 
    procedure setSquareColor(x,y,colorIndex);
@@ -122,7 +122,8 @@ begin
       outinteger(1, x);
       outstring(1, "-cell-");
       outinteger(1, y);
-      outstring(1, "', 'style.backgroundColor','");
+      outstring(1, "', 'className','");
+      outstring(1, "tetris-cell-");
       printColorByIndex(colorIndex);
       outstring(1, "')\n");
    end;
@@ -216,6 +217,15 @@ begin
       end
    end;
 
+   procedure modulo(a,b);
+   integer a, b;
+   begin
+      comment "Floor cannot be inlined because the expression is simplified during compilation and cancels out";
+      integer floor; 
+      floor := (a / b);
+      a := a - (b * floor);
+   end;
+
    comment "First index corresponds to tetronimo";
    comment "Each line has two values corresponding to a single (x,y) pair";
 
@@ -301,7 +311,8 @@ begin
       for i:=0 while !done do
          begin
             currentFrame := currentFrame + 1;
-            if (currentFrame = 10) then currentFrame := 0;
+            modulo(currentFrame, 10);
+
             if (rotationDelay > 0) then rotationDelay := rotationDelay - 1;
 
             ininteger(0, currentKey);
