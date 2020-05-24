@@ -385,15 +385,14 @@ begin
                         begin
                            lockInCurrentPiece;
                            clearFullLines;
-                           randInt(7, currentColorIndex);
-                           increment(currentColorIndex);
-
-                           randInt(7, currentPieceIndex);
                            begin
                               boolean canPlaceResult;
                               currentPositionX := 4;
                               currentPositionY := 0;
 
+                              randInt(7, currentColorIndex);
+                              increment(currentColorIndex);
+                              randInt(7, currentPieceIndex);
                               initialiseTetronimo(currentPieceIndex);
                               canMove(0,0,canPlaceResult);
 
