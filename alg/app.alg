@@ -216,21 +216,13 @@ begin
 
    procedure canPlace(x,y, canPlaceResult);
    integer x, y; boolean canPlaceResult;
-   begin
-      canPlaceResult := true;
-      comment "If square is inside the board";
-      if y > -1  &
-         y < 18 &
-         x > -1  &
-         x < 10 then
-         begin
-            comment "Check that square is empty";
-            if lockedPiecesBoard[y, x] > 0 then
-               canPlaceResult := false;
-         end
-      else
-         canPlaceResult := false;
-   end;
+   canPlaceResult := (
+      y > -1 &
+      y < 18 &
+      x > -1 &
+      x < 10 &
+      lockedPiecesBoard[y, x] = 0
+   );
    
 
    procedure modulo(a,b);
