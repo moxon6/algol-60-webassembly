@@ -340,6 +340,7 @@ begin
       end;
 
       outstring(1, "CALL:setElementProperty('#press-key-message', 'style.display', 'none')\n");
+      outstring(1, "CALL:document.querySelector('#audio-theme').play()\n");
       outstring(1, "EXECUTE\n");
       
 
@@ -404,6 +405,7 @@ begin
                               begin
                                  done := true;
                                  outstring(1, "CALL:setElementProperty('#game-over-message', 'style.display', 'block')\n");
+                                 outstring(1, "CALL:document.querySelector('#audio-theme').pause()\n");
                                  outstring(1, "EXECUTE\n");
                               end;
                            end

@@ -2,4 +2,5 @@ app/algol-wasm
 build-bin
 app/index.html
 app/style.css
+app/tetris.ogg
 node_modules

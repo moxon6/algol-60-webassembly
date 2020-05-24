@@ -18,14 +18,14 @@ p {
 }
 
 .tetris-board {
-    width: 500px;
-    height: 900px;
+    width: 550px;
+    height: 950px;
     background: rgb(28,24,74);
     background: linear-gradient(152deg, rgba(28,24,74,1) 32%, rgba(87,9,84,1) 100%);
 
     display: flex;
     flex-direction: column;
-    border: 1px solid gray;
+    border: 25px solid #231b24;
     position: relative;
 }
 
