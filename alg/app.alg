@@ -133,28 +133,13 @@ begin
       result := true;
       for i := 0 step 1 until 3 do
       begin
-         integer candidateYCoordinate;
-         integer candidateXCoordinate;
-         candidateYCoordinate := currentTetronimo[i,1] + currentPositionY + dy;
-         candidateXCoordinate := currentTetronimo[i,0] + currentPositionX + dx;
-
-         comment "If square is inside the board";
-         if candidateYCoordinate > -1  &
-            candidateYCoordinate < 18 &
-            candidateXCoordinate > -1  &
-            candidateXCoordinate < 10 then
-            begin
-               comment "Check that square is empty";
-               integer candidateSquareValue;
-               candidateSquareValue := lockedPiecesBoard[
-                  candidateYCoordinate,
-                  candidateXCoordinate
-               ];
-               if candidateSquareValue > 0 then
-                  result := false;
-            end
-         else
-            result := false;
+         boolean canPlaceResult;
+         canPlace(
+            currentTetronimo[i,0] + currentPositionX + dx,
+            currentTetronimo[i,1] + currentPositionY + dy,
+            canPlaceResult
+         );
+         result := result & canPlaceResult;
       end
    end;
 
