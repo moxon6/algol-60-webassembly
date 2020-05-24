@@ -141,7 +141,7 @@ begin
       outstring(1, "')\n");
    end;
 
-   procedure canMove(out, dx, dy);
+   procedure canMove(dx, dy, out);
    boolean out; integer dx,dy;
    begin
       integer squareIndex;
@@ -162,7 +162,7 @@ begin
    integer dx, dy;
    begin
          boolean canMoveResult;
-         canMove(canMoveResult, dx, dy);
+         canMove(dx, dy, canMoveResult);
          if (canMoveResult) then 
          begin
             currentPositionX := currentPositionX + dx;
@@ -356,7 +356,7 @@ begin
                begin
                   boolean canMoveResult;
                   tryMove(0,1);
-                  canMove(canMoveResult, 0,1);
+                  canMove(0,1,canMoveResult);
                   if canMoveResult then currentFrame := 1;
                end;
             
@@ -375,7 +375,7 @@ begin
                   comment "Auto move down logic";
                   begin
                      boolean canMoveDownResult;
-                     canMove(canMoveDownResult, 0, 1);
+                     canMove(0, 1, canMoveDownResult);
                      if canMoveDownResult then
                         currentPositionY := currentPositionY + 1
                      else
@@ -392,7 +392,7 @@ begin
                               currentPositionY := 0;
 
                               initialiseTetronimo(currentPieceIndex);
-                              canMove(canPlaceResult,0,0);
+                              canMove(0,0,canPlaceResult);
 
                               if (!canPlaceResult) then 
                               begin
