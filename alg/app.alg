@@ -174,10 +174,10 @@ begin
    integer currentPieceIndex;
    begin
       integer squareIndex;
-      boolean tryRotateResult;
-      tryRotateResult := true;
-      canRotate(tryRotateResult, currentPieceIndex);
-      if tryRotateResult then
+      boolean canRotateResult;
+      canRotateResult := true;
+      canRotate(currentPieceIndex, canRotateResult);
+      if canRotateResult then
          begin
             for squareIndex := 0 step 1 until 3 do
                begin      
@@ -188,7 +188,7 @@ begin
          
    end;
 
-   procedure canRotate(out, currentPieceIndex);
+   procedure canRotate(currentPieceIndex, out);
    boolean out; integer currentPieceIndex;
    begin
       integer squareIndex;
