@@ -216,13 +216,16 @@ begin
 
    procedure canPlace(x,y, canPlaceResult);
    integer x, y; boolean canPlaceResult;
-   canPlaceResult := (
-      y > -1 &
-      y < 18 &
-      x > -1 &
-      x < 10 &
-      lockedPiecesBoard[y, x] = 0
-   );
+   begin
+      canPlaceResult := (
+         y > -1 &
+         y < 18 &
+         x > -1 &
+         x < 10
+      );
+      if canPlaceResult then canPlaceResult := canPlaceResult & lockedPiecesBoard[y, x] = 0;
+   end;
+   
    
 
    procedure modulo(a,b);
