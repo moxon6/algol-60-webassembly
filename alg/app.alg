@@ -6,6 +6,13 @@ begin
    integer array compositeBoard[0:17,0:9]; 
    
    integer array tetronimos[0:6,0:3, 0:1];
+
+   comment "Rotation gives xNew = -y + (dx + dy) and YNew =x + (dy - dx)";
+   comment "Where dy, dy are center of piece";
+   comment "dx,dy can be non-integral, but dx+dy and dy-dx are not, so these are stored instead";
+   integer array tetronimosOffset[0:6, 0:1];
+
+
    integer array currentTetronimo[0:3, 0:1];
    
    integer currentPositionX;
@@ -43,7 +50,7 @@ begin
    procedure initialiseTetronimo(tetronimoIndex);
    integer tetronimoIndex;
    begin
-      integer i, j;
+      integer i;
       for i := 0 step 1 until 3 do
       begin
             currentTetronimo[i,0] := tetronimos[tetronimoIndex,i,0];
@@ -164,6 +171,44 @@ begin
          end;
    end;
 
+   procedure tryRotate(currentPieceIndex);
+   integer currentPieceIndex;
+   begin
+      integer i;
+      boolean tryRotateResult;
+      tryRotateResult := true;
+      canRotate(tryRotateResult);
+      if tryRotateResult then
+         begin
+            for i := 0 step 1 until 3 do
+               begin
+                     integer x,y;
+                     x := currentTetronimo[i,0];
+                     y := currentTetronimo[i,1];
+      
+                     currentTetronimo[i,0] := - y + tetronimosOffset[currentPieceIndex,0];
+                     currentTetronimo[i,1] :=   x + tetronimosOffset[currentPieceIndex,1];
+               end;
+         end;
+         
+   end;
+
+   procedure canRotate(out);
+   boolean out;
+   begin
+      integer i;
+      for i := 0 step 1 until 3 do
+      begin
+            integer x,y;
+            x := currentTetronimo[i,0];
+            y := currentTetronimo[i,1];
+            if (currentPositionX + 1 - y < 0) then out := false;
+            if (currentPositionX + 1 - y > 9) then out := false;
+            if (currentPositionY + 1 + x < 0) then out := false;
+            if (currentPositionY + 1 + x > 17) then out := false;
+      end
+   end;
+
    comment "First index corresponds to tetronimo";
    comment "Each line has two values corresponding to a single (x,y) pair";
 
@@ -173,11 +218,15 @@ begin
    tetronimos[0,2,0] := 2; tetronimos[0,2,1] := 0; comment "Square 3";
    tetronimos[0,3,0] := 3; tetronimos[0,3,1] := 0; comment "Square 4";
 
+   tetronimosOffset[0,0] := 2; tetronimosOffset[0,1] := -1; 
+   
    comment "O Tetronimo";
    tetronimos[1,0,0] := 0; tetronimos[1,0,1] := 0; comment "Square 1";
    tetronimos[1,1,0] := 1; tetronimos[1,1,1] := 0; comment "Square 2";
    tetronimos[1,2,0] := 0; tetronimos[1,2,1] := 1; comment "Square 3";
    tetronimos[1,3,0] := 1; tetronimos[1,3,1] := 1; comment "Square 4";
+
+   tetronimosOffset[1,0] := 1; tetronimosOffset[1,1] := 0; 
 
    comment "T Tetronimo";
    tetronimos[2,0,0] := 0; tetronimos[2,0,1] := 0; comment "Square 1";
@@ -185,17 +234,23 @@ begin
    tetronimos[2,2,0] := 2; tetronimos[2,2,1] := 0; comment "Square 3";
    tetronimos[2,3,0] := 1; tetronimos[2,3,1] := 1; comment "Square 4";
 
+   tetronimosOffset[2,0] := 1; tetronimosOffset[2,1] := -1;
+
    comment "J Tetronimo";
    tetronimos[3,0,0] := 1; tetronimos[3,0,1] := 0; comment "Square 1";
    tetronimos[3,1,0] := 1; tetronimos[3,1,1] := 1; comment "Square 2";
    tetronimos[3,2,0] := 0; tetronimos[3,2,1] := 2; comment "Square 3";
    tetronimos[3,3,0] := 1; tetronimos[3,3,1] := 2; comment "Square 4";
 
-   comment "J Tetronimo";
+   tetronimosOffset[3,0] := 2; tetronimosOffset[3,1] := 0;
+
+   comment "L Tetronimo";
    tetronimos[4,0,0] := 0; tetronimos[4,0,1] := 0; comment "Square 1";
    tetronimos[4,1,0] := 0; tetronimos[4,1,1] := 1; comment "Square 2";
    tetronimos[4,2,0] := 0; tetronimos[4,2,1] := 2; comment "Square 3";
    tetronimos[4,3,0] := 1; tetronimos[4,3,1] := 2; comment "Square 4";
+
+   tetronimosOffset[4,0] := 1; tetronimosOffset[4,1] := 1;
 
    comment "S Tetronimo";
    tetronimos[5,0,0] := 1; tetronimos[5,0,1] := 0; comment "Square 1";
@@ -203,11 +258,15 @@ begin
    tetronimos[5,2,0] := 0; tetronimos[5,2,1] := 1; comment "Square 3";
    tetronimos[5,3,0] := 1; tetronimos[5,3,1] := 1; comment "Square 4";
 
+   tetronimosOffset[5,0] := 2; tetronimosOffset[5,1] := 0;
+
    comment "Z Tetronimo";
    tetronimos[6,0,0] := 0; tetronimos[6,0,1] := 0; comment "Square 1";
    tetronimos[6,1,0] := 1; tetronimos[6,1,1] := 0; comment "Square 2";
    tetronimos[6,2,0] := 1; tetronimos[6,2,1] := 1; comment "Square 3";
    tetronimos[6,3,0] := 2; tetronimos[6,3,1] := 1; comment "Square 4";
+
+   tetronimosOffset[6,0] := 2; tetronimosOffset[6,1] := 0;
 
    begin
       integer i;
@@ -216,31 +275,33 @@ begin
       integer currentFrame;
       integer currentColorIndex;
       integer currentPieceIndex;
+      integer rotationDelay; comment "Delay to prevent over-eager rotation";
       
       currentFrame := 0;
+      rotationDelay:= 0;
       
       done := false;
       inline("startup();");
 
       currentPositionX := 5;
       currentPositionY := 0;
-      initialiseTetronimo(4);
+      currentPieceIndex := 0;
+      initialiseTetronimo(currentPieceIndex);
 
       currentColorIndex := 1;
-      currentPieceIndex := 0;
       
 
       for i:=0 while !done do
          begin
             currentFrame := currentFrame + 1;
-            if (currentFrame = 5) then currentFrame := 0;
+            if (currentFrame = 10) then currentFrame := 0;
+            if (rotationDelay > 0) then rotationDelay := rotationDelay - 1;
 
             ininteger(0, currentKey);
             if (currentKey = 81) then
                done := true;
             if (currentKey = 65) then
                tryMove(-1,0);
-               
             if (currentKey = 68) then
                tryMove(1,0);
             
@@ -252,6 +313,11 @@ begin
                   if canMoveResult then currentFrame := 1;
                end;
             
+            if (currentKey = 87 & rotationDelay = 0) then
+               begin
+                  tryRotate(currentPieceIndex);
+                  rotationDelay := 4;
+               end;
 
             placeCurrentTetronimo(currentColorIndex);
             printMatrix(1, compositeBoard, 18,10);
@@ -280,7 +346,7 @@ begin
                   end;
                end;
             
-            inline("emscripten_sleep(100);");
+            inline("emscripten_sleep(50);");
             
          end;
    end;
