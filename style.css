@@ -23,18 +23,45 @@ p {
   border: 25px solid #231b24;
   position: relative; }
 
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 300px; }
+
 .score-section {
-  width: 250px;
+  width: 100%;
   height: 100px;
   margin-left: 50px;
   background: linear-gradient(152deg, #1c184a 32%, #570954 100%);
   display: flex;
   justify-content: center;
+  border: 10px solid #231b24;
   align-items: center; }
   .score-section #score {
     color: white;
     font-family: monospace;
     font-size: xx-large; }
+
+.controls-section {
+  margin-top: 40px;
+  width: 100%;
+  height: 200px;
+  margin-left: 50px;
+  background: linear-gradient(152deg, #1c184a 32%, #570954 100%);
+  display: flex;
+  justify-content: center;
+  border: 10px solid #231b24;
+  align-items: center;
+  display: flex;
+  flex-direction: column; }
+  .controls-section .controls {
+    color: white;
+    font-family: monospace; }
+    .controls-section .controls h2 {
+      font-size: xx-large;
+      text-decoration: underline; }
+    .controls-section .controls h3 {
+      font-size: x-large; }
 
 .tetris-row {
   flex: 1;
