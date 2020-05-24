@@ -44,17 +44,6 @@ begin
       outstring(1, "EXECUTE\n");
    end;
 
-   procedure rotateMatrix(matrix, dimension);
-   integer array matrix; integer dimension;
-   begin
-      integer i, j;
-      for i := 0 step 1 until dimension-1 do
-      begin
-         for j := 0 step 1 until dimension-1 do
-            outstring(1, "\n");
-      end
-   end;
-
    procedure initialiseTetronimo(tetronimoIndex);
    integer tetronimoIndex;
    begin
