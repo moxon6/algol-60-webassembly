@@ -18,6 +18,8 @@
                         div(class="tetris-row", id=`tetris-row-${yCoord}`)
                             each xCoord in Array(10).fill(0).map((x,i) => i)
                                 div(class="tetris-cell", id=`tetris-row-${yCoord}-cell-${xCoord}`)
+                    div(id="game-over") 
+                        p(id="game-over-message") Game Over
             </div>
         </div>
 

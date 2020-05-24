@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid gray;
+    position: relative;
 }
 
 .tetris-row{
@@ -39,5 +40,24 @@ $colors: aqua, blue, orange, yellow, green, purple, red, transparent;
         box-sizing: border-box;
         border-radius: 8px;
     }
-  }
-  
+}
+
+#game-over {
+    color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    text-transform: uppercase;
+    font-family: monospace;
+    
+    #game-over-message {
+        display: none;
+        background-color: rgb(75,75,75);
+        padding: 12px;   
+        line-height: 16px;;
+    }
+} 

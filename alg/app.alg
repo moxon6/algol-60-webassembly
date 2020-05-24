@@ -345,12 +345,21 @@ begin
                            increment(currentColorIndex);
 
                            randInt(7, currentPieceIndex);
-                           outinteger(1, currentPieceIndex);
-                           outstring(1, "<-- Current piece\n");
-                           
-                           initialiseTetronimo(currentPieceIndex);
-                           currentPositionX := 5;
-                           currentPositionY := 0;
+                           begin
+                              boolean canPlaceResult;
+                              canPlace(5,0, canPlaceResult);
+
+                              if (canPlaceResult) then 
+                              begin
+                                 initialiseTetronimo(currentPieceIndex);
+                                 currentPositionX := 5;
+                                 currentPositionY := 0;
+                              end else begin
+                                 done := true;
+                                 outstring(1, "CALL:setElementProperty('#game-over-message', 'style.display', 'block')\n");
+                                 outstring(1, "EXECUTE\n");
+                              end;
+                           end
                         end
                         
                   end;
