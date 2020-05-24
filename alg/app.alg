@@ -88,6 +88,32 @@ begin
       end
    end;
 
+   procedure clearLine(rowIndex);
+   integer rowIndex;
+   begin
+      integer i, j;
+      for i := rowIndex step -1 until 1 do
+         begin
+            for j := 0 step 1 until 9 do 
+               lockedPiecesBoard[i,j] := lockedPiecesBoard[i -1,j];
+         end
+   end;
+
+   procedure clearFullLines;
+   begin
+      integer i, j;
+      for i := 0 step 1 until 17 do
+         begin
+            boolean fullLine;
+            fullLine := true;
+            for j := 0 step 1 until 9 do fullLine := fullLine & lockedPiecesBoard[i,j] > 0;
+            if (fullLine) then 
+               begin
+                  clearLine(i);
+               end;
+         end
+   end;
+
    procedure setSquareColor(x,y,colorIndex);
    integer x,y,colorIndex;
    begin
@@ -340,7 +366,7 @@ begin
                      else
                         begin
                            lockInCurrentPiece;
-
+                           clearFullLines;
                            randInt(7, currentColorIndex);
                            increment(currentColorIndex);
 
