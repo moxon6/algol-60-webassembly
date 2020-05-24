@@ -225,8 +225,6 @@ begin
       );
       if canPlaceResult then canPlaceResult := canPlaceResult & lockedPiecesBoard[y, x] = 0;
    end;
-   
-   
 
    procedure modulo(a,b);
    integer a, b;
