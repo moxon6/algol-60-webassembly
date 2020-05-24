@@ -225,9 +225,7 @@ begin
          x < 10 then
          begin
             comment "Check that square is empty";
-            integer candidateSquareValue;
-            candidateSquareValue := lockedPiecesBoard[y, x];
-            if candidateSquareValue > 0 then
+            if lockedPiecesBoard[y, x] > 0 then
                canPlaceResult := false;
          end
       else
