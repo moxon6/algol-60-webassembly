@@ -12,11 +12,24 @@ begin
    comment "dx,dy can be non-integral, but dx+dy and dy-dx are not, so these are stored instead";
    integer array tetronimosOffset[0:6, 0:1];
 
+   comment "Random seed populated externally for LCG randInt";
+   integer seed;
 
    integer array currentTetronimo[0:3, 0:1];
    
    integer currentPositionX;
    integer currentPositionY;
+
+   procedure randInt(max, out);
+   comment "Using random0 LCG";
+   integer max, out;
+   begin
+      seed := seed * 8121 + 28411; 
+      modulo(seed, 134456);
+      out := seed;
+      modulo(out, max);
+      if (out < 0) then out := -out;
+   end;
 
    procedure printMatrix(channel, a, dim1, dim2);
    integer channel; integer array a; integer dim1; integer dim2;
@@ -210,10 +223,24 @@ begin
             newX := - y + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
             newY :=   x + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
 
-            if (newX < 0) then out := false;
-            if (newX > 9) then out := false;
-            if (newY < 0) then out := false;
-            if (newY > 17) then out := false;
+            comment "If square is inside the board";
+            if newY > -1  &
+               newY < 18 &
+               newX > -1  &
+               newX < 10 then
+               begin
+                  comment "Check that square is empty";
+                  integer candidateSquareValue;
+                  candidateSquareValue := lockedPiecesBoard[
+                     newY,
+                     newX
+                  ];
+                  if candidateSquareValue > 0 then
+                     out := false;
+               end
+            else
+               out := false;
+
       end
    end;
 
@@ -221,10 +248,20 @@ begin
    integer a, b;
    begin
       comment "Floor cannot be inlined because the expression is simplified during compilation and cancels out";
-      integer floor; 
+      integer floor;
       floor := (a / b);
+      comment "Force floor division";
+      if (floor * b > a) then floor := floor - 1;
+      outinteger(1, a);
+      outinteger(1, b);
+      outinteger(1, floor);
+      outstring(1, "<--A,B,Floor\n");
       a := a - (b * floor);
    end;
+
+   procedure increment(out);
+   integer out;
+   out := out + 1;
 
    comment "First index corresponds to tetronimo";
    comment "Each line has two values corresponding to a single (x,y) pair";
@@ -285,6 +322,8 @@ begin
 
    tetronimosOffset[6,0] := 2; tetronimosOffset[6,1] := 0;
 
+   ininteger(0, seed);
+
    begin
       integer i;
       integer currentKey;
@@ -302,10 +341,12 @@ begin
 
       currentPositionX := 5;
       currentPositionY := 0;
-      currentPieceIndex := 0;
+      randInt(7, currentPieceIndex);
       initialiseTetronimo(currentPieceIndex);
 
-      currentColorIndex := 1;
+
+      randInt(7, currentColorIndex);
+      increment(currentColorIndex);
       
 
       for i:=0 while !done do
@@ -351,10 +392,13 @@ begin
                      else
                         begin
                            lockInCurrentPiece;
-                           currentColorIndex := currentColorIndex + 1;
-                           currentPieceIndex := currentPieceIndex + 1;
-                           if currentColorIndex = 8 then currentColorIndex := 1;
-                           if currentPieceIndex = 7 then currentPieceIndex := 0;
+
+                           randInt(7, currentColorIndex);
+                           increment(currentColorIndex);
+
+                           randInt(7, currentPieceIndex);
+                           outinteger(1, currentPieceIndex);
+                           outstring(1, "<-- Current piece\n");
                            
                            initialiseTetronimo(currentPieceIndex);
                            currentPositionX := 5;

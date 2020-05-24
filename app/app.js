@@ -37,7 +37,12 @@ window.onkeyup = e => keysDown[e.keyCode] = false;
 const getKeyDown = () => Object.keys(keysDown)
     .find(key => keysDown[key]);
 
-const inputBuffer = [];
+// First input request is for a random seed
+const inputBuffer = [
+    Math.floor(Math.random() * 500),
+    null
+];
+
 
 window.prompt = () => {
     
